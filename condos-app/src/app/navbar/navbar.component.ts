@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  isLogged: boolean;
   passwordForm: FormGroup;
   loginForm: FormGroup;
   user: User;
@@ -32,6 +33,7 @@ export class NavbarComponent implements OnInit {
 
   login() {
     console.log('Login ' + JSON.stringify(this.loginForm.value));
+    this.isLogged = true;
     this.router.navigate(['/admin']);
     this.modalRef.hide();
   }
