@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef} from 'ngx-bootstrap/modal';
 import { User } from '../shared/interfaces/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ export class NavbarComponent implements OnInit {
   user: User;
   modalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(private modalService: BsModalService, private router: Router) {}
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -31,10 +32,11 @@ export class NavbarComponent implements OnInit {
 
   login() {
     console.log('Login ' + JSON.stringify(this.loginForm.value));
+    this.router.navigate(['/admin']);
+    this.modalRef.hide();
   }
 
   newPassword() {
-
   }
 
   confirmPassword() {

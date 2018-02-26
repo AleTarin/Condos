@@ -14,6 +14,8 @@ import { WelcomeModule } from './welcome/welcome.module';
 // Imports
 import { ModalModule } from 'ngx-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AdminModule } from './admin/admin.module';
+import { PropietaryModule } from './propietary/propietary.module';
 
 
 
@@ -27,6 +29,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     BrowserModule,
     WelcomeModule,
+    AdminModule,
+    PropietaryModule,
     AppRoutingModule,
   ],
   providers: [],

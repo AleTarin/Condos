@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-between" >
-  <a class="navbar-brand" href="">Condominios</a>
-  <button (click)="openModal(Login)" type="button" class="nav-link btn btn-primary">Login </button>
+<nav class="navbar navbar-expand-sm navbar-light justify-content-between">
+    <img class="logo" src="../../assets/img/logo-condos.jpg" routerLink="/home">
+  <button *ngIf="!isLogged" (click)="openModal(Login)" type="button" class="nav-link btn btn-primary">Login </button>
 </nav>
 
 <!-- Login form modal -->
@@ -15,7 +15,7 @@
             <div class="login-body">
               <form (ngSubmit)="save()" [formGroup]="loginForm" novalidate>
                
-                <!-- Validations -->
+                <!-- Validations User name-->
                 <div *ngIf="(loginForm.controls.username.invalid && (loginForm.controls.username.dirty || loginForm.controls.username.touched))"
                   class="alert alert-danger">
                   <div *ngIf="loginForm.controls.username.errors.required">
@@ -32,7 +32,7 @@
                 required minlength="4"
                 [(ngModel)]="user.username" >
 
-                <!-- Validations -->
+                <!-- Validations Password -->
                 <div *ngIf="(loginForm.controls.password.invalid && (loginForm.controls.password.dirty || loginForm.controls.password.touched)) "
                   class="alert alert-danger">
                   <div *ngIf="loginForm.controls.password.errors.minlength">
@@ -43,8 +43,9 @@
                   </div>
                 </div>
 
+                <!-- Password -->
                 <input type="password" formControlName="password" placeholder="Password" required minlength="4" [(ngModel)]="user.password" >
-                <input type="submit" [disabled]="!loginForm.valid" class="login loginmodal-submit" value="Login">
+                <input type="submit" (click)="login()" [disabled]="!loginForm.valid" class="login loginmodal-submit" value="Login">
               </form>
             </div>
             <div class="login-help">
@@ -80,7 +81,7 @@
                   (passwordForm.controls.confirm.dirty || passwordForm.controls.confirm.touched) && 
                   (passwordForm.controls.password.dirty || passwordForm.controls.password.touched)">
                     <div *ngIf="!confirmPassword()"  class="alert alert-danger">
-                      Contraseñas no coinciden
+                      Passwords are not the same
                     </div>
                   </div>
 

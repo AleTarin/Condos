@@ -1,5 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto);
 
+
 /****** LOGIN MODAL ******/
 .loginmodal-container {
   padding: 2rem;
@@ -15,6 +16,12 @@
   min-width: 100px;
   width: 100px;
 }
+
+.logo {
+  height: 50px;
+  width: auto;
+}
+
 
 
 .loginmodal-container h1 {
@@ -97,4 +104,14 @@
 
 .login-help{
   font-size: 12px;
+}
+
+.navbar{
+  background-color: #FAEB96;
+  background-image: none;
+  background-repeat: no-repeat;
+}
+
+.btn-primary{
+  background-color: #932443;
 }
