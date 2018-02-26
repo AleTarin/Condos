@@ -1,6 +1,96 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-between" >
   <a class="navbar-brand" href="">Condominios</a>
-    <a class="nav-link" role="button" >
-      Login
-    </a>
+  <button (click)="openModal(Login)" type="button" class="nav-link btn btn-primary">Login </button>
 </nav>
+
+<!-- Login form modal -->
+<ng-template #Login>
+  <!-- header -->
+    <div class="loginmodal-container">
+        <div class="login">
+            <img src="../../assets/img/user.png" class="rounded-circle img-fluid login-img mx-auto d-block" alt="user"> 
+            <h1 class="m-1">Login to Your Account</h1><br>
+
+            <!-- Login body -->
+            <div class="login-body">
+              <form (ngSubmit)="save()" [formGroup]="loginForm" novalidate>
+               
+                <!-- Validations -->
+                <div *ngIf="(loginForm.controls.username.invalid && (loginForm.controls.username.dirty || loginForm.controls.username.touched))"
+                  class="alert alert-danger">
+                  <div *ngIf="loginForm.controls.username.errors.required">
+                    Name is required.
+                  </div>
+                  <div *ngIf="loginForm.controls.username.errors.minlength">
+                    Name must be at least 4 characters long.
+                  </div>
+                  
+                </div>
+
+                <!-- User Name -->
+                <input type="text" id="username"formControlName="username" placeholder="Nombre de usuario" 
+                required minlength="4"
+                [(ngModel)]="user.username" >
+
+                <!-- Validations -->
+                <div *ngIf="(loginForm.controls.password.invalid && (loginForm.controls.password.dirty || loginForm.controls.password.touched)) "
+                  class="alert alert-danger">
+                  <div *ngIf="loginForm.controls.password.errors.minlength">
+                      Password must be at least 4 characters long.
+                  </div>
+                  <div *ngIf="loginForm.controls.password.errors.required">
+                      Password is required.
+                  </div>
+                </div>
+
+                <input type="password" formControlName="password" placeholder="Password" required minlength="4" [(ngModel)]="user.password" >
+                <input type="submit" [disabled]="!loginForm.valid" class="login loginmodal-submit" value="Login">
+              </form>
+            </div>
+            <div class="login-help">
+              <a (click)="closeOpen(ForgotPass)" >Forgot Password</a>
+            </div>
+        </div>
+    </div>
+  </ng-template>
+
+  <ng-template #ForgotPass>
+    <div class="loginmodal-container">
+        <div class="login">
+            <img src="../../assets/img/lock.png" class="rounded-circle img-fluid login-img mx-auto d-block" alt="user"> 
+            <h1 class="m-1">Cambiar contraseña</h1><br>
+            <div class="login-body">
+              <form (ngSubmit)="newPassword()" [formGroup]="passwordForm" novalidate>
+
+                  <!-- Validations Password -->
+                  <div *ngIf="passwordForm.controls.password.invalid && (passwordForm.controls.password.dirty || passwordForm.controls.password.touched)"
+                  class="alert alert-danger">
+                    <div *ngIf="passwordForm.controls.password.errors.required">
+                      Password is required.
+                    </div>
+                    <div *ngIf="passwordForm.controls.password.errors.minlength">
+                      Password must be at least 4 characters long.
+                    </div>
+                  </div>
+
+                <input type="password" formControlName="password" placeholder="Contraseña" [(ngModel)]="user.password" required minlength="4">
+                  
+                <!-- Validations Confirm password -->
+                  <div *ngIf="passwordForm.controls.password.invalid && 
+                  (passwordForm.controls.confirm.dirty || passwordForm.controls.confirm.touched) && 
+                  (passwordForm.controls.password.dirty || passwordForm.controls.password.touched)">
+                    <div *ngIf="!confirmPassword()"  class="alert alert-danger">
+                      Contraseñas no coinciden
+                    </div>
+                  </div>
+
+                <input type="password" formControlName="confirm" placeholder="Confirma tu contraseña" [(ngModel)]="user.confirm" required>
+                <input type="submit" [disabled]="!passwordForm.valid" class="login loginmodal-submit" value="Pedir password">
+              </form>
+            </div>
+            <div class="login-help">
+              <a (click)="closeModal()" >Cancelar</a>
+            </div>
+        </div>
+    </div>
+  </ng-template>

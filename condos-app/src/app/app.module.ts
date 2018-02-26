@@ -11,6 +11,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { WelcomeModule } from './welcome/welcome.module';
 
+// Imports
+import { ModalModule } from 'ngx-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   declarations: [
@@ -18,6 +23,8 @@ import { WelcomeModule } from './welcome/welcome.module';
     NavbarComponent
   ],
   imports: [
+    ModalModule.forRoot(),
+    ReactiveFormsModule,
     BrowserModule,
     WelcomeModule,
     AppRoutingModule,
