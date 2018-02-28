@@ -45,3 +45,7 @@ post '/correo_olvide_password' do
 	mail.deliver
 	return {:status => 'ok', :data => 'Correo enviado exitosamente'}.to_json()
 end
+
+get '/usuarios' do
+	return Database.usuarios().to_json()
+end

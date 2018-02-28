@@ -101,5 +101,11 @@ module Database
 		return usuario.first()
 	end
 
+	def self.usuarios()
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		return mongo[:usuarios].find().to_a()
+	end
+
 end
 
