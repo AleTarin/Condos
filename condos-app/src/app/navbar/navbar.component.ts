@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private modalService: BsModalService, private router: Router) {}
 
+  // Funciones para abrir y cerrar modales -----------------------
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
@@ -30,17 +31,20 @@ export class NavbarComponent implements OnInit {
     this.modalRef.hide();
     this.modalRef = this.modalService.show(template);
   }
+  // --------------------------------------------------------------------------
 
+  // Funcion que se ejecuta al hacer login
   login() {
     console.log('Login ' + JSON.stringify(this.loginForm.value));
-    this.isLogged = true;
     this.router.navigate(['/admin']);
     this.modalRef.hide();
   }
 
+  // Funcion para guardar mandar correo en caso de solicitar la contraseña
   newPassword() {
   }
 
+  // Funcion de ayuda para determinar si la contraseña y la confirmación son iguales
   confirmPassword() {
     return this.user && this.user.password && this.user.confirm && this.user.confirm === this.user.password;
   }
