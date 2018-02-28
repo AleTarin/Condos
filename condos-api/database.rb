@@ -89,5 +89,17 @@ module Database
 		mongo.close()
 		return res
 	end
+
+	def self.obtener_usuario(username)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		usuario = mongo[:usuarios].find({username: username})
+		if usuario.count() == 0
+			return {:status => 'error', :data => 'Usuario no existe'}
+		end
+
+		return usuario.first()
+	end
+
 end
 
