@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CarouselModule } from 'ngx-bootstrap';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-welcome-page',
@@ -8,9 +9,10 @@ import { CarouselModule } from 'ngx-bootstrap';
 })
 export class WelcomePageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.prueba().subscribe();
   }
 
 }
