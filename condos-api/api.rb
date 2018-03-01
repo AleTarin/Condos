@@ -47,7 +47,22 @@ post '/correo_olvide_password' do
 	return {:status => 'ok', :data => 'Correo enviado exitosamente'}.to_json()
 end
 
-#Regresa una lista de todos los usuarios de todos los condominios
+#-----------
+
+post '/login_inquilino' do
+	return Database.login_inquilino(params[:username]).to_json()
+end
+
+post '/login_propietario' do
+	return Database.login_propietario(:username).to_json()
+end
+
+post '/login_admin' do
+	return Database.login_admin(:username).to_json()
+end
+
+#-----------
+
 get '/usuarios' do
 	#todo omitir password de resultados
 	return Database.usuarios().to_json()
