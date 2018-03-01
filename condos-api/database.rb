@@ -94,7 +94,7 @@ module Database
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		usuario = mongo[:usuarios].find({username: username})
 		if usuario.count() == 0
-			return {:status => 'error', :data => 'Usuario no existe'}
+			return 'no_existe'
 		end
 
 		return usuario.first()

@@ -42,7 +42,10 @@ end
 #Envia un correo a un usuario que haya olvidad su password
 #params: username
 post '/correo_olvide_password' do
-	password = Database.obtener_usuario(params[:username])[:password]
+	usuario = Database.obtener_usuario(params[:username])
+	if usuario == 'no_existe'
+		return {:status => 'error', :data => 'Usuario no existe'}.to_json()
+	end
 	username = params[:username]
 	Mail.defaults do
 		delivery_method :smtp, {
@@ -59,23 +62,27 @@ post '/correo_olvide_password' do
 	from	'sbacdev@gmail.com'
 	to	username
 	subject	'SBAC: Tu solicitudad de olvide contraseña'
-	body	"Tu password para ingresar es: #{password}"
+	body	"Tu password para ingresar es: #{usuario[:password]}"
 	end
 
 	mail.deliver
 	return {:status => 'ok', :data => 'Correo enviado exitosamente'}.to_json()
 end
 
-#-----------
-
+#Regresa informacion del panel de inquilino
+#params: username
 post '/info_inquilino' do
 	return Database.info_inquilino(params[:username]).to_json()
 end
 
+#Regresa informacion del panel de propietario
+#params: username
 post '/info_propietario' do
 	return Database.info_propietario(params[:username]).to_json()
 end
 
+#Regresa informacion del panel de admin
+#params: username
 post '/info_admin' do
 	return Database.info_admin(params[:username]).to_json()
 end
