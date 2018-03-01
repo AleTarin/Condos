@@ -73,11 +73,11 @@ post '/info_inquilino' do
 end
 
 post '/info_propietario' do
-	return Database.info_propietario(:username).to_json()
+	return Database.info_propietario(params[:username]).to_json()
 end
 
 post '/info_admin' do
-	return Database.info_admin(:username).to_json()
+	return Database.info_admin(params[:username]).to_json()
 end
 
 #-----------
