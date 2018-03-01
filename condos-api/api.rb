@@ -9,7 +9,16 @@ set(:port, 5000)
 #params: username, password
 post '/validar_login' do
 	#todo crear sesion despues de validar login
-	return Database.validar_login(params[:username], params[:password]).to_json()
+	data = Database.validar_login(params[:username], params[:password])
+	if data == 'super_admin'
+		return {:status => 'ok', :data => 'super_admin'}.to_json()
+	end
+
+	if !data
+		return {:status => 'error', :data => 'Login invalido'}.to_json()
+	end
+
+	return {:status => 'ok', :data => data}.to_json()
 end
 
 #Regresa la lista de todos los usuarios del condominio (inquilinos, propietarios y admins)
