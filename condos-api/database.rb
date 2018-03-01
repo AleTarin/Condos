@@ -108,22 +108,28 @@ module Database
 
 	#---------
 
-	def self.login_inquilino(username)
+	def self.info_inquilino(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		return 0
+		# Regresar solamente username y numero de cuarto
+		mongo.close()
+		return mongo[:vive_en].find({:username => username}).to_a()
 	end
 
-	def self.login_propietario(username)
+	def self.info_propietario(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		return 0
+		# Regresar solamente username y condominios
+		mongo.close()
+		return mongo[:propietario_de].find({:username => username}).to_a()
 	end
 
-	def self.login_admin(username)
+	def self.info_admin(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		return 0
+		# Regresar solamente username y condominios
+		mongo.close()
+		return mongo[:administra_condominios].find({:username => username}).to_a()
 	end
 
 	#---------

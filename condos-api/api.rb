@@ -58,16 +58,16 @@ end
 
 #-----------
 
-post '/login_inquilino' do
-	return Database.login_inquilino(params[:username]).to_json()
+post '/info_inquilino' do
+	return Database.info_inquilino(params[:username]).to_json()
 end
 
-post '/login_propietario' do
-	return Database.login_propietario(:username).to_json()
+post '/info_propietario' do
+	return Database.info_propietario(:username).to_json()
 end
 
-post '/login_admin' do
-	return Database.login_admin(:username).to_json()
+post '/info_admin' do
+	return Database.info_admin(:username).to_json()
 end
 
 #-----------
