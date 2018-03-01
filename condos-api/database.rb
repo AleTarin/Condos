@@ -65,28 +65,28 @@ module Database
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		if !self.es_tipo(username_admin, 'admin')
-			return {:status => 'error', :data => 'Este usuario no es administrador'}
+			return 'no_es_admin'
 		end
 
 		if mongo[:administra_condominios].find({:username => username_admin, :condominio => nombre_condo}).count == 0
-			return {:status => 'error', :data => 'Este admin no administra este condominio'}
+			return 'no_administra'
 		end
 
-		res = {:status => 'ok', :data => {:usuarios => []}}
+		data = {}
+		data[:usuarios] = []
 
 		mongo[:vive_en].find({:condominio => nombre_condo}, projection: {username: 1, _id:0}).to_a().each do |elem|
-			res[:data][:usuarios].push(elem)
+			data[:usuarios].push(elem)
 		end
 		mongo[:administra_condominios].find({:condominio => nombre_condo}, projection: {username: 1, _id:0}).to_a().each do |elem|
-			res[:data][:usuarios].push(elem)
+			data[:usuarios].push(elem)
 		end
 		mongo[:propietario_de].find({:condominio => nombre_condo}, projection: {username: 1, _id:0}).to_a().each do |elem|
-			res[:data][:usuarios].push(elem)
+			data[:usuarios].push(elem)
 		end
 
-		res[:data][:usuarios] = res[:data][:usuarios].uniq
-		mongo.close()
-		return res
+		data[:usuarios] = data[:usuarios].uniq
+		return data
 	end
 
 	def self.obtener_usuario(username)
