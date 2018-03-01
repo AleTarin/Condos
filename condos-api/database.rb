@@ -45,21 +45,21 @@ module Database
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		mongo.close()
-		return mongo[:administra_condominios].find({:username => username}).to_a()
+		return mongo[:administra_condominios].find({:username => username}, projection: {condominio: 1, _id:0}).to_a()
 	end
 
 	def self.datos_login_inquilino(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		mongo.close()
-		return mongo[:vive_en].find({:username => username}).to_a()
+		return mongo[:vive_en].find({:username => username}, projection: {condominio: 1, cuarto: 1, _id:0}).to_a()
 	end
 
 	def self.datos_login_propietario(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		mongo.close()
-		return mongo[:propietario_de].find({:username => username}).to_a()
+		return mongo[:propietario_de].find({:username => username}, projection: {condominio: 1, _id:0}).to_a()
 	end
 
 	def self.lista_manejar_usuarios(username_admin, nombre_condo)

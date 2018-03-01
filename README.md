@@ -9,10 +9,13 @@
 1. Tener instalado 
     - Ruby 
     - Sinatra (gem install sinatra)
+    - Mongo (gem install mongo)
+    - json (gem install json)
+    - mail (gem install mail)
 
 2. Entrar a la carpeta condos-api
-3. Compilar el archivo main (myapp.rb)
-4. El servidor debe de ejecutarse en localhost:4567
+3. Compilar el archivo main (api.rb)
+4. El servidor debe de ejecutarse en localhost:5000
 
 ### Pasos para instalacion app frontend:
 
