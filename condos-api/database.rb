@@ -107,5 +107,10 @@ module Database
 		return mongo[:usuarios].find().to_a()
 	end
 
+	def self.cambiar_password(username, password_nueva)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		mongo[:usuarios].update_one({:username => username}, {'$set' => {:password => password_nueva}})
+	end
 end
 

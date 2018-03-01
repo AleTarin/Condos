@@ -20,9 +20,10 @@ post '/lista_manejar_usuarios' do
 	return Database.lista_manejar_usuarios(params[:admin_username], params[:nombre_condo]).to_json()
 end
 
+#Envia un correo a un usuario que haya olvidad su password
+#params: username
 post '/correo_olvide_password' do
 	password = Database.obtener_usuario(params[:username])[:password]
-
 	username = params[:username]
 	Mail.defaults do
 		delivery_method :smtp, {
@@ -46,6 +47,20 @@ post '/correo_olvide_password' do
 	return {:status => 'ok', :data => 'Correo enviado exitosamente'}.to_json()
 end
 
+#Regresa una lista de todos los usuarios de todos los condominios
 get '/usuarios' do
+	#todo omitir password de resultados
 	return Database.usuarios().to_json()
+end
+
+#Cambia la password de un usuario
+#params: username, password_actual, password_nueva
+post '/cambiar_password' do
+	#todo validar que haya sesion
+	if Database.obtener_usuario(params[:username])[:password] != params[:password_actual] 
+		return {:status => 'error', :data => 'Password incorrecto'}
+	end
+
+	Database.cambiar_password(params[:username], params[:password_nueva])
+	return {:status => 'ok', :data => 'Se cambio passwor exitosamente'}.to_json()
 end
