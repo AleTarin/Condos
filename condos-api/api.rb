@@ -4,6 +4,7 @@ require 'mail'
 require './database.rb'
 
 set(:port, 5000)
+enable :sessions
 
 #Valida un intento de login
 #params: username, password
@@ -18,6 +19,8 @@ post '/validar_login' do
 		return {:status => 'error', :data => 'Login invalido'}.to_json()
 	end
 
+	session[:username] = params[:username]
+	puts session[:username]
 	return {:status => 'ok', :data => data}.to_json()
 end
 
@@ -25,7 +28,10 @@ end
 #Solo accesible para admins
 #params: admin_username, nombre_condo
 post '/lista_manejar_usuarios' do
-	#todo validar sesion antes de regresar lista
+	if session[:username] == nil
+		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	end
+
 	data = Database.lista_manejar_usuarios(params[:admin_username], params[:nombre_condo])
 
 	if data == 'no_es_admin'
@@ -72,36 +78,49 @@ end
 #Regresa informacion del panel de inquilino
 #params: username
 post '/info_inquilino' do
+	if session[:username] == nil
+		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	end
 	return Database.info_inquilino(params[:username]).to_json()
 end
 
 #Regresa informacion del panel de propietario
 #params: username
 post '/info_propietario' do
+	if session[:username] == nil
+		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	end
 	return Database.info_propietario(params[:username]).to_json()
 end
 
 #Regresa informacion del panel de admin
 #params: username
 post '/info_admin' do
+	if session[:username] == nil
+		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	end
 	return Database.info_admin(params[:username]).to_json()
 end
 
 #-----------
 
 get '/usuarios' do
-	#todo omitir password de resultados
+	puts session[:username]
+	if session[:username] == nil
+		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	end
 	return Database.usuarios().to_json()
 end
 
 #Cambia la password de un usuario
 #params: username, password_actual, password_nueva
 post '/cambiar_password' do
-	#todo validar que haya sesion
+	if session[:username] == nil
+		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	end
 	if Database.obtener_usuario(params[:username])[:password] != params[:password_actual] 
 		return {:status => 'error', :data => 'Password incorrecto'}
 	end
-
 	Database.cambiar_password(params[:username], params[:password_nueva])
 	return {:status => 'ok', :data => 'Se cambio passwor exitosamente'}.to_json()
 end

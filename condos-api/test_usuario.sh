@@ -1,2 +1,2 @@
 #!/bin/bash
-http -f get :5000/usuarios
+http -session=user -f get :5000/usuarios
