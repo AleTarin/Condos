@@ -165,6 +165,39 @@ module Database
 			mongo[:vive_en].insert_one({:username => usuario[:username], :condominio => usuario[:inquilino][:nombre_condo], :cuarto => usuario[:inquilino][:cuarto]})
 		end
 	end
+<<<<<<< HEAD
 >>>>>>> Crear directorio de pruebas para scripts de pruebas; Agregar endpoint para crear usuario POST /usuario user
 end
+=======
 
+	def self.actualizar_usuario(username, user)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		mongo[:usuarios].update_one({:username => username}, {'$set' => {:username => user[:username]}})
+		mongo[:usuarios].update_one({:username => username}, {'$set' => {:password => user[:password]}})
+	end
+>>>>>>> Marcar bug en endpoint put /usuarios; actualizar base de datos; agregar endpoint para borrar usuarios delete /usuarios/:username
+
+	def self.borrar_usuario(username)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		borrado = {}
+		borrado[:username] = username
+		borrado[:password] = mongo[:usuarios].find({:username => username}).first()[:password]
+		if self.es_tipo(username, 'admin')
+			borrado[:administra_condominios] = mongo[:administra_condominios].find({:username => username}, projection: {condominio: 1, _id: 0}).to_a
+			mongo[:administra_condominios].delete_one({:username => username})
+		end
+		if self.es_tipo(username, 'propietario')
+			borrado[:propietario_de] = mongo[:propietario_de].find({:username => username}, projection: {condominio: 1, _id: 0}).to_a
+			mongo[:propietario_de].delete_one({:username => username})
+		end
+		if self.es_tipo(username, 'inquilino')
+			borrado[:vive_en] = mongo[:vive_en].find({:username => username}, projection: {_id: 0}).to_a
+			mongo[:vive_en].delete_one({:username => username})
+		end
+		mongo[:borrados].insert_one(borrado)
+		mongo[:usuarios].delete_one({:username => username})
+		mongo[:usuario_tiene_tipos].delete_one({:username => username})
+	end
+end

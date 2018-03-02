@@ -126,7 +126,6 @@ post '/cambiar_password' do
 	return {:status => 'ok', :data => 'Se cambio passwor exitosamente'}.to_json()
 end
 
-<<<<<<< HEAD
 #Regresa el usuario que tenga el username ingresado
 #params: username
 get '/usuarios/:username' do
@@ -136,21 +135,25 @@ get '/usuarios/:username' do
 	return Database.obtener_usuario(params[:username]).to_json()
 end
 
+delete '/usuarios/:username' do
+	#if session[:username] == nil
+		#return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	#end
+
+	if Database.obtener_usuario(params[:username]) == 'no_existe'
+		return {:status => 'error', :data => 'Usuario no existe'}.to_json()
+	end
+
+	Database.borrar_usuario(params[:username])
+
+	return {:status => 'ok', :data => 'Usuario se borro exitosamente'}.to_json()
+end
+
 #Actualiza la informacion de username con la informacion de user
 #params: username, user
-put'/usuario/ :username :user' do
+#todo endpoint no funciona
+put'/usuario/:username :user' do
+	return params.to_json()
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
 	Database.actualizar_usuario(params[:username], params[:user])
-=======
-#Crea un usuario
-#params:
-#username, password, inquilino: {nombre_condo, cuarto} o false, admin: {nombre_condo} o false, propietaro: {nombre_false} o false
-post '/usuarios' do
-	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
-	if Database.obtener_usuario(params[:username]) != 'no_existe'
-		return {:status => 'error', :data => 'Este usuario ya existe'}.to_json()
-	end
-	Database.crear_usuario(params)
-	return {:status => 'ok', :data => 'Usuario creado exitosamente'}.to_json()
->>>>>>> Crear directorio de pruebas para scripts de pruebas; Agregar endpoint para crear usuario POST /usuario user
 end
