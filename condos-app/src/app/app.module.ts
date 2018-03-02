@@ -16,13 +16,14 @@ import { ModalModule } from 'ngx-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminModule } from './admin/admin.module';
 import { PropietaryModule } from './propietary/propietary.module';
-
-
+import { InquilinoComponent } from './inquilino/inquilino.component';
+import { LocalstorageService } from './services/localstorage.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    InquilinoComponent,
   ],
   imports: [
     ModalModule.forRoot(),
@@ -33,7 +34,7 @@ import { PropietaryModule } from './propietary/propietary.module';
     PropietaryModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [LocalstorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

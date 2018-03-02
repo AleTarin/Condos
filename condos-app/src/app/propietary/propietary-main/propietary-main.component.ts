@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalstorageService } from '../../services/localstorage.service';
 
 @Component({
   selector: 'app-propietary-main',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PropietaryMainComponent implements OnInit {
 
-  constructor() { }
+  user: any;
+  constructor(private storage: LocalstorageService) { }
 
   ngOnInit() {
+    this.user = this.storage.getfromLocalStorage('currentUser')['propietario'];
   }
+
 
 }

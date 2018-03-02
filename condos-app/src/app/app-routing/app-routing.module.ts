@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { WelcomePageComponent } from '../welcome/welcome-page/welcome-page.component';
 import { AdminMainComponent } from '../admin/admin-main/admin-main.component';
 import { PropietaryMainComponent } from '../propietary/propietary-main/propietary-main.component';
+import { InquilinoComponent } from '../inquilino/inquilino.component';
 
 const routes: Routes = [
   {path: 'home', component: WelcomePageComponent},
   {path: 'admin', component: AdminMainComponent},
-  {path: 'propietary', component: PropietaryMainComponent},
+  {path: 'propietario', component: PropietaryMainComponent},
+  {path: 'inquilino', component: InquilinoComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home', pathMatch: 'full'},
 ];

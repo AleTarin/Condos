@@ -12,7 +12,6 @@ export class WelcomePageComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.authService.login('a00811931@gmail.com', 'admin').subscribe(user => console.log(user));
   }
 
 }

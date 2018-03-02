@@ -4,6 +4,7 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { CarouselModule } from 'ngx-bootstrap';
 import { AuthService } from '../services/auth/auth.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { UserService } from '../services/user/user.service';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   declarations: [WelcomePageComponent],
   providers: [
     AuthService,
-    HttpClient
+    UserService,
+    HttpClient,
   ]
 })
 export class WelcomeModule { }

@@ -3,6 +3,9 @@ GEM
   specs:
     bson (4.3.0)
     json (2.1.0)
+    mail (2.7.0)
+      mini_mime (>= 0.1.1)
+    mini_mime (1.0.0)
     mongo (2.5.1)
       bson (>= 4.3.0, < 5.0.0)
     mustermann (1.0.2)
@@ -21,6 +24,7 @@ PLATFORMS
 
 DEPENDENCIES
   json
+  mail
   mongo
   sinatra
 
