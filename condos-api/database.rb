@@ -127,7 +127,6 @@ module Database
 	def self.info_propietario(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		# Regresar solamente username y condominios
 		mongo.close()
 		return mongo[:propietario_de].find({:username => username}).to_a()
 	end
@@ -135,7 +134,6 @@ module Database
 	def self.info_admin(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		# Regresar solamente username y condominios
 		mongo.close()
 		return mongo[:administra_condominios].find({:username => username}).to_a()
 	end
