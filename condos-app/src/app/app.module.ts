@@ -18,6 +18,7 @@ import { AdminModule } from './admin/admin.module';
 import { PropietaryModule } from './propietary/propietary.module';
 import { InquilinoComponent } from './inquilino/inquilino.component';
 import { LocalstorageService } from './services/localstorage.service';
+import { AuthGuard } from './services/guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { LocalstorageService } from './services/localstorage.service';
     PropietaryModule,
     AppRoutingModule,
   ],
-  providers: [LocalstorageService],
+  providers: [LocalstorageService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

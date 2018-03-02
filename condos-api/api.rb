@@ -115,9 +115,9 @@ end
 #Cambia la password de un usuario
 #params: username, password_actual, password_nueva
 post '/cambiar_password' do
-	if session[:username] == nil
-		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
-	end
+	# if session[:username] == nil
+	# 	return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	# end
 	if Database.obtener_usuario(params[:username])[:password] != params[:password_actual] 
 		return {:status => 'error', :data => 'Password incorrecto'}
 	end
