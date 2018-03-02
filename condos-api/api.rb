@@ -124,3 +124,20 @@ post '/cambiar_password' do
 	Database.cambiar_password(params[:username], params[:password_nueva])
 	return {:status => 'ok', :data => 'Se cambio passwor exitosamente'}.to_json()
 end
+
+#Regresa el usuario que tenga el username ingresado
+#params: username
+get '/usuarios/ :username' do
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	if session[:username] == nil
+		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
+	end
+	return Database.obtener_usuario(params[:username]).to_json()
+end
+
+#Actualiza la informacion de username con la informacion de user
+#params: username, user
+put'/usuario/ :username :user' do
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	Database.actualizar_usuario(params[:username], params[:user])
+end

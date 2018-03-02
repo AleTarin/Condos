@@ -106,15 +106,11 @@ module Database
 		return mongo[:usuarios].find({}, projection: {password: 0}).to_a()
 	end
 
-<<<<<<< HEAD
-	#---------
-=======
 	def self.cambiar_password(username, password_nueva)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		mongo[:usuarios].update_one({:username => username}, {'$set' => {:password => password_nueva}})
 	end
->>>>>>> Merge incorrecto
 
 	def self.info_inquilino(username)
 		Mongo::Logger.logger.level = Logger::FATAL
@@ -138,7 +134,16 @@ module Database
 		return mongo[:administra_condominios].find({:username => username}).to_a()
 	end
 
+<<<<<<< HEAD
 	#---------
+=======
+	def self.actualizar_usuario(username, user)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		mongo[:usuarios].update_one({:username => username}, {'$set' => {:username => user[:username]}})
+		mongo[:usuarios].update_one({:username => username}, {'$set' => {:password => user[:password]}})
+	end
+>>>>>>> Se agregaron los endpoints para ‘GET /usuarios/ username’ y PUT ’/usuario/ username user’.
 
 end
 
