@@ -6,6 +6,7 @@ require './database.rb'
 set(:port, 5000)
 enable :sessions
 
+
 #Valida un intento de login
 #params: username, password
 post '/validar_login' do
@@ -125,6 +126,7 @@ post '/cambiar_password' do
 	return {:status => 'ok', :data => 'Se cambio passwor exitosamente'}.to_json()
 end
 
+<<<<<<< HEAD
 #Regresa el usuario que tenga el username ingresado
 #params: username
 get '/usuarios/ :username' do
@@ -140,4 +142,16 @@ end
 put'/usuario/ :username :user' do
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
 	Database.actualizar_usuario(params[:username], params[:user])
+=======
+#Crea un usuario
+#params:
+#username, password, inquilino: {nombre_condo, cuarto} o false, admin: {nombre_condo} o false, propietaro: {nombre_false} o false
+post '/usuarios' do
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	if Database.obtener_usuario(params[:username]) != 'no_existe'
+		return {:status => 'error', :data => 'Este usuario ya existe'}.to_json()
+	end
+	Database.crear_usuario(params)
+	return {:status => 'ok', :data => 'Usuario creado exitosamente'}.to_json()
+>>>>>>> Crear directorio de pruebas para scripts de pruebas; Agregar endpoint para crear usuario POST /usuario user
 end

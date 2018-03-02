@@ -135,6 +135,7 @@ module Database
 	end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	#---------
 =======
 	def self.actualizar_usuario(username, user)
@@ -145,5 +146,25 @@ module Database
 	end
 >>>>>>> Se agregaron los endpoints para ‘GET /usuarios/ username’ y PUT ’/usuario/ username user’.
 
+=======
+	#Recibe el mismo JSON del metodo /usuarios de api.rb
+	def self.crear_usuario(usuario)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		mongo[:usuarios].insert_one({:username => usuario[:username], :password => usuario[:password]})
+		if usuario[:admin].to_s != "false"
+			mongo[:usuario_tiene_tipos].insert_one({:username => usuario[:username], :tipo => 'admin'})
+			mongo[:administra_condominios].insert_one({:username => usuario[:username], :condominio => username[:admin][:nombre_condo]})
+		end
+		if usuario[:propietario].to_s != "false"
+			mongo[:usuario_tiene_tipos].insert_one({:username => usuario[:username], :tipo => 'propietario'})
+			mongo[:propietario_de].insert_one({:username => usuario[:username], :condominio => username[:propietario][:nombre_condo]})
+		end
+		if usuario[:inquilino].to_s != "false"
+			mongo[:usuario_tiene_tipos].insert_one({:username => usuario[:username], :tipo => 'inquilino'})
+			mongo[:vive_en].insert_one({:username => usuario[:username], :condominio => usuario[:inquilino][:nombre_condo], :cuarto => usuario[:inquilino][:cuarto]})
+		end
+	end
+>>>>>>> Crear directorio de pruebas para scripts de pruebas; Agregar endpoint para crear usuario POST /usuario user
 end
 
