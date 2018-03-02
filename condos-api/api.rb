@@ -129,8 +129,7 @@ end
 <<<<<<< HEAD
 #Regresa el usuario que tenga el username ingresado
 #params: username
-get '/usuarios/ :username' do
-	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+get '/usuarios/:username' do
 	if session[:username] == nil
 		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
 	end
