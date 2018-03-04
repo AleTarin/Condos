@@ -158,3 +158,17 @@ put'/usuario/:username :user' do
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
 	Database.actualizar_usuario(params[:username], params[:user])
 end
+
+=begin
+Crea un condominio
+params:
+{
+	nombre_condo
+	direccion
+	locales: [ { piso, cuarto } ]
+}
+=end
+post '/condominios' do
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	return params.to_json()
+end

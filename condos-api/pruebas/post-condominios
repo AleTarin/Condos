@@ -1,0 +1,3 @@
+#!/bin/bash
+mvjson $0
+http post :5000/condominios < prueba.json
