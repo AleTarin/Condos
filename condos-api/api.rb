@@ -163,12 +163,16 @@ end
 Crea un condominio
 params:
 {
-	nombre_condo
+	nombre
 	direccion
 	locales: [ { piso, cuarto } ]
 }
 =end
 post '/condominios' do
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	if Database.crear_condominio(params) == 'ya_existe'
+		return {:status => 'error', :data => 'Este condominio ya existe'}.to_json()
+	end
+	return {:status => 'ok', :data => 'Condominio creado exitosamente'}.to_json()
 	return params.to_json()
 end

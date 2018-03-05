@@ -200,4 +200,15 @@ end
 		mongo[:usuarios].delete_one({:username => username})
 		mongo[:usuario_tiene_tipos].delete_one({:username => username})
 	end
+
+	#Recibe el mismo json que endpoint POST /condominios
+	def self.crear_condominio(condo)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')	
+		if mongo[:condominios].find({:nombre => condo[:nombre]}).count() >= 1
+			return 'ya_existe'
+		end
+		condo[:locales] = condo[:locales].uniq
+		mongo[:condominios].insert_one(condo)
+	end
 end
