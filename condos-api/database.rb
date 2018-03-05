@@ -204,11 +204,20 @@ end
 	#Recibe el mismo json que endpoint POST /condominios
 	def self.crear_condominio(condo)
 		Mongo::Logger.logger.level = Logger::FATAL
-		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')	
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		if mongo[:condominios].find({:nombre => condo[:nombre]}).count() >= 1
 			return 'ya_existe'
 		end
 		condo[:locales] = condo[:locales].uniq
 		mongo[:condominios].insert_one(condo)
+	end
+
+	def self.actualizar_condominio(nombre_actual, condo)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		if mongo[:condominios].find({:nombre => nombre_actual}).count() == 0
+			return 'no_existe'
+		end
+		mongo[:condominios].update_one({:nombre => nombre_actual}, {'$set' => {:nombre => condo[:nombre], :direccion => condo[:direccion]}})
 	end
 end

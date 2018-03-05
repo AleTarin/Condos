@@ -176,3 +176,21 @@ post '/condominios' do
 	return {:status => 'ok', :data => 'Condominio creado exitosamente'}.to_json()
 	return params.to_json()
 end
+
+=begin
+Actualiza el condominio con nombre nombre_condo
+con la informacion en el json condo (no actualiza pisos ni cuartos)
+params:
+{
+	nombre_condo
+	condo: {
+		nombre
+		direccion
+	}
+}
+=end
+put '/condominios' do
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	Database.actualizar_condominio(params[:nombre_condo], params[:condo])
+	return params.to_json()
+end
