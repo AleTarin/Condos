@@ -127,6 +127,53 @@ post '/cambiar_password' do
 	return {:status => 'ok', :data => 'Se cambio passwor exitosamente'}.to_json()
 end
 
+=begin
+Crea un usuario
+params (json ejemplo):
+{
+	"username" : correo, es la llave primaria
+	"password" : "admin",
+	"nombre" : "Usuario",
+	"paterno" : apellido paterno
+	"materno" : apellido materno
+	"rfc" : "XAX010101000",
+	"aniversario" : fecha de nacimiento
+	"tipo_persona" : persona fisica o moral
+	"tel_movil" : "8181818181",
+	"tel_directo" : "83838383",
+	"calle" : "calle_usuario",
+	"num_exterior" : "numext_usuario",
+	"num_interior" : "numint_usuario",
+	"colonia" : "colonia_usuario",
+	"ciudad" : "ciudad_usuario",
+	"localidad" : "localidad_usuario",
+	"codigo_postal" : "66666",
+	"estado" : "Nuevo Leon",
+	"pais" : "Mexico",
+	"metodo_pago" : "",
+	"uso_cfdi" : "",
+	"num_cuenta" : "",
+	"clabe_cuenta" : "",
+	"nombre_banco_cuenta" : "",
+	"nombre_sat_cuenta" : "",
+	"estatus" : activo, no_activo o bloquedao
+	admin: nombre del condo que administra o false
+	propietario: nombre del condo que administra o false
+	inquilino: false o el siguiente json {
+		nombre_condo:nombre del condo donde vive,
+		propiedad: identificador de la propiedad donde vive
+	}
+}
+=end
+post '/usuarios' do
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	if Database.obtener_usuario(params[:username]) != 'no_existe'
+		return {:status => 'error', :data => 'Este usuario ya existe'}.to_json()
+	end
+	Database.crear_usuario(params)
+	return {:status => 'ok', :data => 'Usuario creado exitosamente'}.to_json()
+end
+
 #Regresa el usuario que tenga el username ingresado
 #params: username
 get '/usuarios/:username' do

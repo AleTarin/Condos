@@ -51,7 +51,7 @@ module Database
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		mongo.close()
-		return mongo[:vive_en].find({:username => username}, projection: {condominio: 1, cuarto: 1, _id:0}).to_a()
+		return mongo[:vive_en].find({:username => username}, projection: {condominio: 1, propiedad: 1, _id:0}).to_a()
 	end
 
 	def self.datos_login_propietario(username)
@@ -151,19 +151,30 @@ module Database
 	def self.crear_usuario(usuario)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		mongo[:usuarios].insert_one({:username => usuario[:username], :password => usuario[:password]})
-		if usuario[:admin].to_s != "false"
+		if usuario[:admin].to_s != "false" && mongo[:condominios].find({:nombre => usuario[:admin]}).count() >= 1
 			mongo[:usuario_tiene_tipos].insert_one({:username => usuario[:username], :tipo => 'admin'})
+<<<<<<< HEAD
 			mongo[:administra_condominios].insert_one({:username => usuario[:username], :condominio => username[:admin][:nombre_condo]})
+=======
+			mongo[:administra_condominios].insert_one({:username => usuario[:username], :condominio => usuario[:admin]})
+>>>>>>> Cambiar endpoint para crear usuarios POST usuarios para utilizar campos reales, remover script de pruebas crear_usuario y agregar script post-usuario con api de mockaroo
 		end
-		if usuario[:propietario].to_s != "false"
+		if usuario[:propietario].to_s != "false" && mongo[:condominios].find({:nombre => usuario[:propietario]}).count() >= 1
 			mongo[:usuario_tiene_tipos].insert_one({:username => usuario[:username], :tipo => 'propietario'})
+<<<<<<< HEAD
 			mongo[:propietario_de].insert_one({:username => usuario[:username], :condominio => username[:propietario][:nombre_condo]})
+=======
+			mongo[:propietario_de].insert_one({:username => usuario[:username], :condominio => usuario[:propietario]})
+>>>>>>> Cambiar endpoint para crear usuarios POST usuarios para utilizar campos reales, remover script de pruebas crear_usuario y agregar script post-usuario con api de mockaroo
 		end
-		if usuario[:inquilino].to_s != "false"
+		if usuario[:inquilino].to_s != "false" && mongo[:condominios].find({:nombre => usuario[:inquilino][:nombre_condo]}).count() >= 1
 			mongo[:usuario_tiene_tipos].insert_one({:username => usuario[:username], :tipo => 'inquilino'})
-			mongo[:vive_en].insert_one({:username => usuario[:username], :condominio => usuario[:inquilino][:nombre_condo], :cuarto => usuario[:inquilino][:cuarto]})
+			mongo[:vive_en].insert_one({:username => usuario[:username], :condominio => usuario[:inquilino][:nombre_condo], :propiedad => usuario[:inquilino][:propiedad]})
 		end
+		usuario.delete(:admin)
+		usuario.delete(:propietario)
+		usuario.delete(:inquilino)
+		mongo[:usuarios].insert_one(usuario)
 	end
 <<<<<<< HEAD
 >>>>>>> Crear directorio de pruebas para scripts de pruebas; Agregar endpoint para crear usuario POST /usuario user

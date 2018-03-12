@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ $1 -eq 1 ]
+then
+	curl "https://api.mockaroo.com/api/cee15210?count=1&key=bb27e1f0" > "post-usuarios.json"
+fi
+http post :5000/usuarios < post-usuarios.json
