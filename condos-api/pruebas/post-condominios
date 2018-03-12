@@ -1,3 +1,6 @@
 #!/bin/bash
-mvjson $0
-http post :5000/condominios < prueba.json
+if [ $1 -eq 1 ]
+then
+curl "https://api.mockaroo.com/api/a061a640?count=1&key=bb27e1f0" > "post-condominios.json"
+fi
+http post :5000/condominios < post-condominios.json

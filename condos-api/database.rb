@@ -219,7 +219,6 @@ end
 		if mongo[:condominios].find({:nombre => condo[:nombre]}).count() >= 1
 			return 'ya_existe'
 		end
-		condo[:locales] = condo[:locales].uniq
 		mongo[:condominios].insert_one(condo)
 	end
 
@@ -230,5 +229,16 @@ end
 			return 'no_existe'
 		end
 		mongo[:condominios].update_one({:nombre => nombre_actual}, {'$set' => {:nombre => condo[:nombre], :direccion => condo[:direccion]}})
+	end
+
+	def self.agregar_propiedades(nombre_condo, propiedades)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		propiedades.each do |prop|
+			prop[:condominio] = nombre_condo
+			if mongo[:propiedades].find({:condominio => nombre_condo, :identificador => prop[:identificador]}).count() == 0
+				mongo[:propiedades].insert_one(prop)
+			end
+		end
 	end
 end

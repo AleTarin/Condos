@@ -146,7 +146,7 @@ params (json ejemplo):
 	"num_interior" : "numint_usuario",
 	"colonia" : "colonia_usuario",
 	"ciudad" : "ciudad_usuario",
-	"localidad" : "localidad_usuario",
+	"localidad" : normalmente es lo mismo que ciudad
 	"codigo_postal" : "66666",
 	"estado" : "Nuevo Leon",
 	"pais" : "Mexico",
@@ -210,18 +210,40 @@ end
 Crea un condominio
 params:
 {
-	nombre
-	direccion
-	locales: [ { piso, cuarto } ]
+	"nombre" : "Residencial Balcones de la Loma",
+	"razon_social" : "SA de CV",
+	"tel_movil" : "8181818181",
+	"tel_directo" : "83838383",
+	"calle" : "calle_condo",
+	"num_exterior" : "numext",
+	"num_interior" : "numint",
+	"colonia" : "colonia_condo",
+	"ciudad" : "ciudad_condo",
+	"localidad" : normalmente es lo mismo que ciudad,
+	"codigo_postal" : "66666",
+	"estado"
+	"pais" : "Mexico",
+	"imagen" : path a la imagen
+	"estatus" : activo o no activo
+	propiedades: [
+		{
+			"identificador" : "1-1",
+			"indiviso" : "",
+			"propietario" : "a00811931@gmail.com",
+			"responsable" : "a00811931@gmail.com",
+			"estatus" : ocupado, desocupado o no activo
+		}
+	]
 }
 =end
 post '/condominios' do
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	propiedades = params.delete(:propiedades)
 	if Database.crear_condominio(params) == 'ya_existe'
 		return {:status => 'error', :data => 'Este condominio ya existe'}.to_json()
 	end
+	Database.agregar_propiedades(params[:nombre], propiedades)
 	return {:status => 'ok', :data => 'Condominio creado exitosamente'}.to_json()
-	return params.to_json()
 end
 
 =begin
