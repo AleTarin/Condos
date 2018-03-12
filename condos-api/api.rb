@@ -247,19 +247,38 @@ post '/condominios' do
 end
 
 =begin
-Actualiza el condominio con nombre nombre_condo
-con la informacion en el json condo (no actualiza pisos ni cuartos)
-params:
+actualiza la informacion de un condo (no se tienen que enviar todos los campos ni de condo ni de propiedad)
 {
-	nombre_condo
-	condo: {
-		nombre
-		direccion
-	}
+	"nombre" : no se puede modificar el nombre del condo
+	"razon_social" : "SA de CV",
+	"tel_movil" : "8181818181",
+	"tel_directo" : "83838383",
+	"calle" : "calle_condo",
+	"num_exterior" : "numext",
+	"num_interior" : "numint",
+	"colonia" : "colonia_condo",
+	"ciudad" : "ciudad_condo",
+	"localidad" : normalmente es lo mismo que ciudad,
+	"codigo_postal" : "66666",
+	"estado"
+	"pais" : "Mexico",
+	"imagen" : path a la imagen
+	"estatus" : activo o no activo
+	propiedades: [
+		{
+			"identificador" : no se puede modificar identificador de la propiedad
+			"indiviso" : "",
+			"propietario" : "a00811931@gmail.com",
+			"responsable" : "a00811931@gmail.com",
+			"estatus" : ocupado, desocupado o no activo
+		}
+	]
 }
 =end
-put '/condominios' do
+patch '/condominios' do
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
-	Database.actualizar_condominio(params[:nombre_condo], params[:condo])
-	return params.to_json()
+	propiedades = params.delete(:propiedades)
+	Database.actualizar_condominio(params)
+	Database.actualizar_propiedades(params[:nombre], propiedades)
+	return {:estatus => 'ok', :data => 'Se actualizo condominio exitosamente'}.to_json()
 end

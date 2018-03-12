@@ -1,0 +1,2 @@
+#!/bin/bash
+http patch :5000/condominios < patch-condominios.json
