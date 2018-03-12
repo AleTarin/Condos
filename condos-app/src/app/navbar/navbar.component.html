@@ -15,8 +15,20 @@
   </ul>
 
   <!-- Botones de Login - Logout -->
-  <button *ngIf="!(auth.loggedIn$ | async)" (click)="openModal(Login)" type="button" class="nav-link btn btn-primary">Login </button>
-  <button *ngIf="(auth.loggedIn$ | async)" (click)="logout()" type="button" class="nav-link btn btn-primary">Log out</button>
+  <button  *ngIf="!(auth.loggedIn$ | async)" (click)="openModal(Login)" type="button" class="nav-link btn btn-primary mr-5">Login </button>
+  <div class="btn-group mr-5 pointer"  *ngIf="(auth.loggedIn$ | async)"  dropdown>
+    <div dropdownToggle  class="dropdown-toggle   ">
+        Log out  
+        <img src="../../assets/img/user.png" alt="user img" class="img-fluid logout-link img-circle m-3">
+        <span class="caret"></span>
+    </div>
+    <ul *dropdownMenu class="dropdown-menu" role="menu">
+      <li role="menuitem" ><p class="dropdown-item" (click)="openModal(NewPass)" > Change password </p></li>
+      <li class="divider dropdown-divider"></li>
+      <li role="menuitem" (click)="logout()" ><p class="dropdown-item"> Log out </p>
+      </li>
+    </ul>
+  </div>
 </nav>
 
 <!-- Login form modal -->
@@ -65,18 +77,17 @@
                 
                 <!-- User Name -->
                 <input type="text" id="username"formControlName="username" placeholder="Nombre de usuario" 
-                required minlength="4"
-                [(ngModel)]="user.username" >
+                required minlength="4" [(ngModel)]="userLogin.username" >
 
                 <!-- Password -->
-                <input type="password" formControlName="password" placeholder="Password" required minlength="4" [(ngModel)]="user.password" >
+                <input type="password" formControlName="password" placeholder="Password" required minlength="4" [(ngModel)]="userLogin.password" >
                 <input type="submit" (click)="login()" [disabled]="!loginForm.valid" class="login loginmodal-submit" value="Login">
               </form>
             </div>
             
             <!-- Etiquetas abajo del login -->
             <div class="login-help">
-              <a (click)="closeOpen(NewPass)" >Cambiar contraseña</a>  -  <a (click)="closeOpen(ForgotPass)" >Olvide mi contraseña</a>
+              <a (click)="closeOpen(ForgotPass)" >Olvide mi contraseña</a>
             </div>
         </div>
     </div>
@@ -112,8 +123,7 @@
                 <form (ngSubmit)="forgotPassword()" [formGroup]="forgotForm" novalidate>
                   <!-- User Name -->
                   <input type="text" id="username" formControlName="username" placeholder="Nombre de usuario" 
-                  required minlength="4"
-                  [(ngModel)]="user.username" >
+                  required minlength="4" [(ngModel)]="userForgot.username" >
   
                   <input type="submit" [disabled]="!forgotForm.valid" class="login loginmodal-submit" value="Mandar email">
                 </form>
@@ -176,11 +186,10 @@
                 </div> 
 
                 <!-- Inputs -->
-                <input type="text" id="username" formControlName="username" placeholder="Nombre de usuario" 
-                required minlength="4" [(ngModel)]="user.username" >
-                <input type="password" formControlName="password_actual" placeholder="Contraseña actual"  required minlength="4">
-                <input type="password" formControlName="password" placeholder="Contraseña nueva" [(ngModel)]="user.password" required minlength="4">
-                <input type="password" formControlName="confirm" placeholder="Confirma tu contraseña" [(ngModel)]="user.confirm" required>
+                <input type="text" id="username" formControlName="username" placeholder="Nombre de usuario" [(ngModel)]="userPassword.username" required minlength="4" >
+                <input type="password" formControlName="password_actual" [(ngModel)]="actualPassword" placeholder="Contraseña actual"  required minlength="4">
+                <input type="password" formControlName="password" [(ngModel)]="userPassword.password" placeholder="Contraseña nueva"  required minlength="4">
+                <input type="password" formControlName="confirm"  [(ngModel)]="userPassword.confirm" placeholder="Confirma tu contraseña"  required>
                 <input type="submit" [disabled]="!passwordForm.valid" class="login loginmodal-submit" value="Pedir password">
 
               </form>

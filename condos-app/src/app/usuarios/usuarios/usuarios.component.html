@@ -1,0 +1,215 @@
+
+<div class="m-3">
+    <p class="float-left font-weight-bold">  Welcome admin  </p>
+    <button type="button" (click)="openModal(add)" class="btn btn-primary float-right pull-right pr-3 pl-3 mr-3">Añadir usuario</button>
+    <br><br>
+</div>
+
+<div class="container-fluid">
+        <div class="row justify-content-center align-items-center"> 
+                <div class="col-4 "> Lista de inquilinos </div>
+        </div>
+    </div>
+
+
+<!-- Lista de usuarios -->
+<accordion-group #group *ngFor="let elem of user; let i = index" class="m-3 ">
+  <div accordion-heading class="clearfix align-middle font-weight-bold pointer " >
+      <span class="align-middle">
+          {{ elem['condominio'] }}  
+      </span>
+
+      <div class="btn-group float-right pull-right ">
+        <label class="btn btn-outline-secondary " (click)="openModal(edit)" >Edit</label>
+        <label class="btn btn-outline-danger" (click)="deleteUser(elem)" >x</label>
+      </div>
+  </div>
+  This is just some content to illustrate fancy headings.
+</accordion-group>
+
+<!-- Modal para añadir usuario-->
+<ng-template #add>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Añadir usuario</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    
+        <div class="modal-body loginmodal-container">
+            <div class="justify-content-center align-items-center login">
+                <div class="alert alert-danger" 
+                *ngIf="username.invalid && username.touched || password.invalid && password.touched" >
+                    <div *ngIf="username.invalid && username.touched">
+                        <div *ngIf = "username.errors?.required"> El nombre usuario es requerido </div>
+                    </div>
+                    <div *ngIf="password.invalid && password.touched">
+                        <div *ngIf = "password.errors?.required"> La contraseña es requerida </div>
+                    </div>
+                </div>
+                    <form [formGroup]="userForm">
+                            <fieldset>                    
+                                <!-- Email Block -->
+                                <div class="form-group">
+                                    <input  type="email"
+                                        id="inputEmail" formControlName="username"
+                                        placeholder="Email" required>
+                                </div>
+                                <!-- Password Block -->
+                                <div class="form-group">
+                                <input type="text"
+                                    id="inputPassword"  formControlName="password"
+                                    placeholder="Password" required>
+                                </div>
+    
+                                <!-- User type Block -->
+                                <div class="form-group" formGroupName="tipo">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox"
+                                            name="adminCheck" formControlName = "admin" id="adminCheck">
+                                        <label class="custom-control-label"  for="adminCheck">
+                                            Administrador
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" 
+                                            name="propCheck" formControlName = "propietario" id="propCheck">
+                                        <label class="custom-control-label"  for="propCheck">
+                                            Propietario
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" 
+                                        name="inquilinoCheck" formControlName = "inquilino" id="inquilinoCheck">
+                                        <label class="custom-control-label" for="inquilinoCheck" >
+                                            Inquilino
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- In case of admin -->
+    
+                                <!-- In case of propiertary -->
+                                <div class="form-group" *ngIf="userForm.value.tipo.inquilino" >
+                                        <select class="custom-select" formControlName = "cuarto">
+                                            <option selected disabled>Cuarto</option>
+                                            <!-- ngfor para recorrer todos los cuartos o textbox? -->
+                                            <option value="1">001</option>
+                                            <option value="2">002</option>
+                                            <option value="3">003</option>
+                                        </select>             
+                                </div>
+    
+                                <!-- In case of inquilino -->
+    
+                                <!-- Casos de prueba -->
+                                <!-- {{ userForm.value | json}}
+                                {{ userForm.status | json}}     
+                                {{ admin | json}}                       
+                                 -->
+    
+                                <!-- Buttons block -->
+                                <input type="submit" class="login loginmodal-submit" value="Enviar">
+                                
+                                <!-- Etiquetas abajo del login -->
+                                <div class="login-help">
+                                    <a (click)="closeModal()"> Cancelar  </a>
+                                </div>
+                            </fieldset>
+                    </form>
+                </div>
+        </div>
+</ng-template>
+
+ <!-- Modal para editar usuario -->
+ <ng-template #edit>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Editar usuario</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    
+        <div class="modal-body loginmodal-container">
+            <div class="justify-content-center align-items-center login">
+                <div class="alert alert-danger" 
+                *ngIf="usernameEdit.invalid && usernameEdit.touched || passwordEdit.invalid && passwordEdit.touched" >
+                    <div *ngIf="usernameEdit.invalid && usernameEdit.touched">
+                        <div *ngIf = "usernameEdit.errors?.required"> El nombre usuario es requerido </div>
+                    </div>
+                    <div *ngIf="passwordEdit.invalid && passwordEdit.touched">
+                        <div *ngIf = "passwordEdit.errors?.required"> La contraseña es requerida </div>
+                    </div>
+                </div>
+                    <form [formGroup]="editForm">
+                            <fieldset>                    
+                                <!-- Email Block -->
+                                <div class="form-group">
+                                    <input  type="email"
+                                        id="inputEmail" formControlName="username"
+                                        placeholder="Email" required>
+                                </div>
+                                <!-- Password Block -->
+                                <div class="form-group">
+                                <input type="text"
+                                    id="inputPassword"  formControlName="password"
+                                    placeholder="Password" required>
+                                </div>
+    
+                                <!-- User type Block -->
+                                <div class="form-group" formGroupName="tipo">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox"
+                                            name="adminCheck" formControlName = "admin" id="adminCheck">
+                                        <label class="custom-control-label"  for="adminCheck">
+                                            Administrador
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" 
+                                            name="propCheck" formControlName = "propietario" id="propCheck">
+                                        <label class="custom-control-label"  for="propCheck">
+                                            Propietario
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" 
+                                        name="inquilinoCheck" formControlName = "inquilino" id="inquilinoCheck">
+                                        <label class="custom-control-label" for="inquilinoCheck" >
+                                            Inquilino
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- In case of admin -->
+    
+                                <!-- In case of propiertary -->
+                                <div class="form-group" *ngIf="editForm.value.tipo.inquilino" >
+                                        <select class="custom-select" formControlName = "cuarto">
+                                            <option selected disabled>Cuarto</option>
+                                            <!-- ngfor para recorrer todos los cuartos o textbox? -->
+                                            <option value="1">001</option>
+                                            <option value="2">002</option>
+                                            <option value="3">003</option>
+                                        </select>             
+                                </div>
+    
+                                <!-- In case of inquilino -->
+                                <!-- {{editForm.value | json}} -->
+    
+    
+                                <!-- Buttons block -->
+                                <input type="submit" class="login loginmodal-submit" value="Enviar">
+                                
+                                <!-- Etiquetas abajo del login -->
+                                <div class="login-help">
+                                    <a (click)="closeModal()"> Cancelar  </a>
+                                </div>
+                            </fieldset>
+                    </form>
+                </div>
+        </div>
+</ng-template>
+    
+     
+

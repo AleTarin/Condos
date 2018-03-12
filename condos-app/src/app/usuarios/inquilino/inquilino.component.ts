@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalstorageService } from '../services/localstorage.service';
+import { LocalstorageService } from '../../services/localstorage.service';
 
 @Component({
   selector: 'app-inquilino',

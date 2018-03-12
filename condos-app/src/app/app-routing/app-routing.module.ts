@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WelcomePageComponent } from '../welcome/welcome-page/welcome-page.component';
-import { AdminMainComponent } from '../admin/admin-main/admin-main.component';
-import { PropietaryMainComponent } from '../propietary/propietary-main/propietary-main.component';
-import { InquilinoComponent } from '../inquilino/inquilino.component';
+import { AdminMainComponent } from '../usuarios/admin/admin-main/admin-main.component';
+import { PropietaryMainComponent } from '../usuarios/propietary/propietary-main/propietary-main.component';
+import { InquilinoComponent } from '../usuarios/inquilino/inquilino.component';
 
 const routes: Routes = [
   {path: 'home', component: WelcomePageComponent},

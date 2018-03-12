@@ -1,6 +1,6 @@
 export class User {
-    id: number;
-    username: String;
-    password: String;
-    confirm: String;
+    id?: number;
+    username?: String;
+    password?: String;
+    confirm?: String;
 }

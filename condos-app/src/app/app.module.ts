@@ -12,30 +12,29 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { WelcomeModule } from './welcome/welcome.module';
 
 // Imports
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, BsDropdownModule } from 'ngx-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AdminModule } from './admin/admin.module';
-import { PropietaryModule } from './propietary/propietary.module';
-import { InquilinoComponent } from './inquilino/inquilino.component';
 import { LocalstorageService } from './services/localstorage.service';
 import { AuthGuard } from './services/guards/auth.guard';
+import { UsuariosModule } from './usuarios/usuarios.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    InquilinoComponent,
+    NavbarComponent
   ],
   imports: [
     ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
     ReactiveFormsModule,
+    UsuariosModule,
     BrowserModule,
     WelcomeModule,
-    AdminModule,
-    PropietaryModule,
     AppRoutingModule,
   ],
-  providers: [LocalstorageService, AuthGuard],
+  providers: [
+    AuthGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

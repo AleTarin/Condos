@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService, BsModalRef} from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef, BsDropdownModule } from 'ngx-bootstrap';
 import { User } from '../shared/interfaces/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,20 +12,35 @@ import { UserService } from '../services/user/user.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  mensajeOlvido: any;
-  mensajeNewPass: any;
-  mensaje: string;
+
+  // Mensajes para el login
+  mensajeOlvido: String;
+  mensajeNewPass: String;
+
+  actualPassword: String;
+
+  userLogin: User;
+  userForgot: User;
+  userPassword: User;
+
+  // Switches
   loginError: boolean;
+
+  // Forms
   passwordForm: FormGroup;
   forgotForm: FormGroup;
   loginForm: FormGroup;
-  user: any;
+
+  // Referencia para lanzar el modal
   modalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService, private router: Router, public auth: AuthService, public userService: UserService) {
+  constructor(
+    private modalService: BsModalService,
+    private router: Router,
+    public auth: AuthService,
+    public userService: UserService) {
   }
 
-  // Funciones para abrir y cerrar modales -----------------------
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
@@ -37,14 +52,14 @@ export class NavbarComponent implements OnInit {
   isLogged() {
     return localStorage.getItem('currentUser') !== null ;
   }
-
+  //
+  // ─────────────────────────── FUNCION QUE CIERRA EL MODAL ACTUAL Y ABRE OTRO ─────
   closeOpen(template: TemplateRef<any>) {
     this.modalRef.hide();
     this.modalRef = this.modalService.show(template);
   }
-  // --------------------------------------------------------------------------
-
-  // Funcion que se ejecuta al hacer login
+  //
+  // ───────────────────────────────────────────────── FUNCION PARA HACER LOGIN ─────
   login() {
     const username = this.loginForm.controls['username'].value;
     const password = this.loginForm.controls['password'].value;
@@ -58,78 +73,86 @@ export class NavbarComponent implements OnInit {
       }
     });
   }
-
+  //
+  // ──────────────────────────────────────────────── FUNCION PARA HACER LOGOUT ─────
   logout() {
     this.auth.logout();
     this.router.navigate(['/home']);
   }
-
-  // Funcion para guardar mandar correo en caso de solicitar la contraseña
+  //
+  // _______________________________________ Funcion para guardar mandar correo en caso de solicitar la contraseña
   newPassword() {
-
     this.auth.cambiarPassword(this.passwordForm.controls['username'].value,
     this.passwordForm.controls['password_actual'].value ,
     this.passwordForm.controls['confirm'].value)
     .subscribe( res => this.mensajeNewPass = res);
   }
-
+  //
+  // ___________________________________________________________ Funcion para recuperar la contraseña por la api
   forgotPassword() {
     this.auth.correoOlvidePassword(this.forgotForm.controls['username'].value)
     .subscribe( res => this.mensajeOlvido = res);
   }
-
-  // Funcion de ayuda para determinar si la contraseña y la confirmación son iguales
+  //
+  // ___________________________ Funcion de ayuda para determinar si la contraseña y la confirmación son iguales
   confirmPassword() {
-    return this.user && this.user.password && this.user.confirm && this.user.confirm === this.user.password;
+    return  this.userPassword &&
+            this.userPassword.password &&
+            this.userPassword.confirm &&
+            this.userPassword.confirm === this.userPassword.password;
   }
 
-
-
   ngOnInit() {
-    this.user = new User();
+    // _____________________________________________________________________ Inicizalizar donde guardar la info
+    this.userLogin = new User();
+    this.userPassword = new User();
+    this.userForgot = new User();
+    // ____________________________________________________________________________Form para el modal de login
     this.loginForm = new FormGroup({
-      username: new FormControl(this.user.username, [
+      username: new FormControl(
+        this.userLogin.username, [
         Validators.required,
         Validators.minLength(4),
       ]),
-      password: new FormControl( this.user.password, [
+      password: new FormControl(
+        this.userLogin.password, [
         Validators.required,
         Validators.minLength(4)]
       ),
       login: new FormControl(true),
     });
-
+    // ________________________________________________________ Form para el modal de asignar una nueva contraseña
     this.passwordForm = new FormGroup({
       username: new FormControl(
-        this.user.username, [
+        this.userPassword.username, [
         Validators.required,
         Validators.minLength(4),
       ]),
       password_actual: new FormControl(
-       [
+        this.actualPassword, [
         Validators.required,
         Validators.minLength(4),
       ]),
       password: new FormControl(
-        this.user.password, [
+        this.userPassword.password, [
         Validators.required,
         Validators.minLength(4),
       ]),
       confirm: new FormControl(
-        this.user.password, [
+        this.userPassword.confirm, [
           Validators.required,
           Validators.minLength(4),
         ]),
       send: new FormControl(),
     });
-
+     // ______________________________________________ Form para el modal pedir una la contraseña actual
     this.forgotForm = new FormGroup({
-      username: new FormControl([
+      username: new FormControl(
+        this.userForgot.username, [
         Validators.required,
         Validators.minLength(4),
       ]),
       send: new FormControl(),
-    });
+    }); // ____________________________________________________________________________________________
   }
-
 }
