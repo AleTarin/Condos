@@ -119,7 +119,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.userSubscription = this.UserServ.getAllAdmin(this.adminName, this.adminCondo)
     .subscribe(users => {
       this.user = users;
-      // this.subscribeToData();
     } );
   }
 
@@ -152,6 +151,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   deleteUser(user: string) {
     this.UserServ.delete(this.toBeDeleted).subscribe();
+    this.refreshData();
+    this.closeModal();
   }
 
   newUser() {
@@ -195,6 +196,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
     this.UserServ.create(nuevoUsuario).subscribe(res => this.createMessage = res);
     this.resetUserData();
+    this.refreshData();
   }
 
   resetUserData(): any {
