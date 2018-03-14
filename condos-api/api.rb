@@ -30,9 +30,6 @@ end
 #Solo accesible para admins
 #params: admin_username, nombre_condo
 post '/lista_manejar_usuarios' do
-	if session[:username] == nil
-		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
-	end
 
 	data = Database.lista_manejar_usuarios(params[:admin_username], params[:nombre_condo])
 

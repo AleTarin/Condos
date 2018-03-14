@@ -1,13 +1,19 @@
 
 <div class="m-3">
     <p class="float-left font-weight-bold">  Welcome admin  </p>
+    <button class="float-right pull-right btn btn-primary" (click)="refreshData()">Refrescar</button>
     <button type="button" (click)="openModal(add)" class="btn btn-primary float-right pull-right pr-3 pl-3 mr-3">Añadir usuario</button>
     <br><br>
 </div>
 
 <div class="container-fluid">
         <div class="row justify-content-center align-items-center"> 
-                <div class="col-4 "> Lista de inquilinos </div>
+                <div class="float-left pull-left"> 
+                    <h3>
+                            Lista de inquilinos 
+                    </h3>
+                </div> 
+                
         </div>
     </div>
 
@@ -16,15 +22,16 @@
 <accordion-group #group *ngFor="let elem of user; let i = index" class="m-3 ">
   <div accordion-heading class="clearfix align-middle font-weight-bold pointer " >
       <span class="align-middle">
-          {{ elem['condominio'] }}  
+          {{ elem['username'] }}
       </span>
 
       <div class="btn-group float-right pull-right ">
         <label class="btn btn-outline-secondary " (click)="openModal(edit)" >Edit</label>
-        <label class="btn btn-outline-danger" (click)="deleteUser(elem)" >x</label>
+        <label class="btn btn-outline-danger" (click)="openModal( del , elem['username'] )"> x</label>
       </div>
   </div>
-  This is just some content to illustrate fancy headings.
+  <!-- (click)="deleteUser(elem)" -->
+  {{ elem | json}}
 </accordion-group>
 
 <!-- Modal para añadir usuario-->
@@ -38,84 +45,213 @@
     
         <div class="modal-body loginmodal-container">
             <div class="justify-content-center align-items-center login">
-                <div class="alert alert-danger" 
-                *ngIf="username.invalid && username.touched || password.invalid && password.touched" >
-                    <div *ngIf="username.invalid && username.touched">
-                        <div *ngIf = "username.errors?.required"> El nombre usuario es requerido </div>
+                    <div class="alert alert-success" *ngIf="createMessage" >
+                        {{createMessage}}
                     </div>
-                    <div *ngIf="password.invalid && password.touched">
-                        <div *ngIf = "password.errors?.required"> La contraseña es requerida </div>
-                    </div>
-                </div>
+
                     <form [formGroup]="userForm">
                             <fieldset>                    
-                                <!-- Email Block -->
-                                <div class="form-group">
-                                    <input  type="email"
-                                        id="inputEmail" formControlName="username"
-                                        placeholder="Email" required>
-                                </div>
-                                <!-- Password Block -->
-                                <div class="form-group">
-                                <input type="text"
-                                    id="inputPassword"  formControlName="password"
-                                    placeholder="Password" required>
-                                </div>
-    
-                                <!-- User type Block -->
-                                <div class="form-group" formGroupName="tipo">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox"
-                                            name="adminCheck" formControlName = "admin" id="adminCheck">
-                                        <label class="custom-control-label"  for="adminCheck">
-                                            Administrador
-                                        </label>
+                                    <!-- Email Block -->
+                                    <div class="form-group">
+                                        <input  type="email"
+                                            formControlName="username" placeholder="Email" required>
                                     </div>
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" 
-                                            name="propCheck" formControlName = "propietario" id="propCheck">
-                                        <label class="custom-control-label"  for="propCheck">
-                                            Propietario
-                                        </label>
+    
+                                    <!-- Password Block -->
+                                    <div class="form-group">
+                                            <input type="text"
+                                                formControlName="password" placeholder="Password" required>
                                     </div>
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" 
-                                        name="inquilinoCheck" formControlName = "inquilino" id="inquilinoCheck">
-                                        <label class="custom-control-label" for="inquilinoCheck" >
-                                            Inquilino
-                                        </label>
+    
+                                    <!-- Name Block -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="name" placeholder="Nombre" required>
                                     </div>
-                                </div>
-                                
-                                <!-- In case of admin -->
     
-                                <!-- In case of propiertary -->
-                                <div class="form-group" *ngIf="userForm.value.tipo.inquilino" >
-                                        <select class="custom-select" formControlName = "cuarto">
-                                            <option selected disabled>Cuarto</option>
-                                            <!-- ngfor para recorrer todos los cuartos o textbox? -->
-                                            <option value="1">001</option>
-                                            <option value="2">002</option>
-                                            <option value="3">003</option>
-                                        </select>             
-                                </div>
+                                    <!-- Apellidos Block -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="paterno" placeholder="Apellido paterno" required>
+                                    </div>
     
-                                <!-- In case of inquilino -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="materno" placeholder="Apellido materno" required>
+                                    </div>
     
-                                <!-- Casos de prueba -->
-                                <!-- {{ userForm.value | json}}
-                                {{ userForm.status | json}}     
-                                {{ admin | json}}                       
-                                 -->
+                                    <!-- RFC -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="rfc" placeholder="RFC" required>
+                                    </div>
     
-                                <!-- Buttons block -->
-                                <input type="submit" class="login loginmodal-submit" value="Enviar">
-                                
-                                <!-- Etiquetas abajo del login -->
-                                <div class="login-help">
-                                    <a (click)="closeModal()"> Cancelar  </a>
-                                </div>
-                            </fieldset>
+                                    <!-- Aniversario -->
+                                    <div class="form-group">
+                                            <input type="date"
+                                                formControlName="aniversario" placeholder="Fecha de nacimiento" required>
+                                    </div>
+    
+                                    <!-- User type Block -->
+                                    <div class="form-group">
+                                        <input type="radio" formControlName="tipo_persona" name="tipo_persona" value="Persona Moral"  > Persona Moral<br>
+                                        <input type="radio" formControlName="tipo_persona" name="tipo_persona" value="Persona Fisica"> Persona Fisica <br>
+                                    </div>
+    
+                                    <!-- Movil -->
+                                    <div class="form-group">
+                                            <input type="tel"
+                                                formControlName="tel_movil" placeholder="Teléfono Móvil" required>
+                                    </div>
+    
+                                    <!-- Telefono Directo -->
+                                    <div class="form-group">
+                                            <input type="tel"
+                                                formControlName="tel_directo" placeholder="Teléfono Directo" required>
+                                    </div>
+    
+                                    <!-- Calle  -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="calle" placeholder="Calle" required>
+                                    </div>
+    
+                                    <!-- Numero Exterior -->
+                                    <div class="form-group">
+                                            <input  type="number"
+                                                formControlName="num_exterior" placeholder="Número Exterior" required>
+                                    </div>
+    
+                                    <!-- Numero Interior -->
+                                    <div class="form-group">
+                                            <input  type="number"
+                                                formControlName="num_interior" placeholder="Número Interior" required>
+                                    </div>
+    
+                                    <!-- Colonia -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="colonia" placeholder="Colonia" required>
+                                    </div>
+    
+                                    <!-- Ciudad -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="ciudad" placeholder="Ciudad" required >
+                                    </div>
+    
+                                    <!-- Localidad -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="localidad" placeholder="Localidad" required>
+                                    </div>
+    
+                                    <!-- Estado -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="estado" placeholder="Estado" required>
+                                    </div>
+    
+                                    <!-- Pais -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="pais" placeholder="País" required>
+                                    </div>
+    
+                                    <!-- Codigo Postal -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="codigo_postal" placeholder="Codigo Postal" required>
+                                    </div>
+    
+                                    <!-- Metodo de pago -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="metodo_pago" placeholder="Método de Pago" required>
+                                    </div>
+                                    
+                                    <!-- Uso CFDI ? -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="uso_cfdi" placeholder="CFDI" required>
+                                    </div>
+    
+                                    <!-- Numero de cuenta -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="num_cuenta" placeholder="Número de Cuenta" required>
+                                    </div>
+    
+                                    <!-- Clabe de cuenta -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="clabe_cuenta" placeholder="Clabe de Cuenta" required>
+                                    </div>
+    
+                                    <!-- Nombre de cuenta -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="nombre_banco_cuenta" placeholder="Nombre de cuenta bancaria" required>
+                                    </div>
+    
+                                    <!-- Nombre de SAT en Cuenta -->
+                                    <div class="form-group">
+                                            <input  type="text"
+                                                formControlName="nombre_sat_cuenta" placeholder="Nombre de SAT en cuenta bancaria" required>
+                                    </div>
+    
+                                    <!-- Estatus -->
+                                    <div class="form-group">
+                                            <input type="radio" formControlName="estatus" name="estatus" value="activo" > Activo <br>
+                                            <input type="radio" formControlName="estatus" name="estatus" value="no_activo"> No activo <br>
+                                            <input type="radio" formControlName="estatus" name="estatus" value="bloqueado"> Bloqueado <br>
+                                    </div>
+    
+                                    <!-- User type Block -->
+                                    <div class="form-group" formGroupName="tipo">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox"
+                                                name="adminCheck" formControlName = "admin" id="adminCheck">
+                                            <label class="custom-control-label"  for="adminCheck">
+                                                Administrador
+                                            </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" 
+                                                name="propCheck" formControlName = "propietario" id="propCheck">
+                                            <label class="custom-control-label"  for="propCheck">
+                                                Propietario
+                                            </label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" 
+                                            name="inquilinoCheck" formControlName = "inquilino" id="inquilinoCheck">
+                                            <label class="custom-control-label" for="inquilinoCheck" >
+                                                Inquilino
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- In case of admin -->
+        
+                                    <!-- In case of propiertary -->
+    
+                                    <!-- Nombre de SAT en Cuenta -->
+                                    <div class="form-group" *ngIf="userForm.value.tipo.inquilino" >
+                                            <input  type="number"
+                                                formControlName="propiedad" placeholder="Id de Propiedad" >
+                                    </div>
+        
+                                    <!-- In case of inquilino -->
+        
+                                    <!-- Buttons block   -->
+                                    <input type="submit" (click)="newUser()" [disabled]="!userForm.valid" class="login loginmodal-submit" value="Enviar">
+                                    
+                                    <!-- Etiquetas abajo del login -->
+                                    <div class="login-help">
+                                        <a (click)="closeModal()"> Cancelar  </a>
+                                    </div>
+                                </fieldset>
                     </form>
                 </div>
         </div>
@@ -132,30 +268,167 @@
     
         <div class="modal-body loginmodal-container">
             <div class="justify-content-center align-items-center login">
-                <div class="alert alert-danger" 
-                *ngIf="usernameEdit.invalid && usernameEdit.touched || passwordEdit.invalid && passwordEdit.touched" >
-                    <div *ngIf="usernameEdit.invalid && usernameEdit.touched">
-                        <div *ngIf = "usernameEdit.errors?.required"> El nombre usuario es requerido </div>
-                    </div>
-                    <div *ngIf="passwordEdit.invalid && passwordEdit.touched">
-                        <div *ngIf = "passwordEdit.errors?.required"> La contraseña es requerida </div>
-                    </div>
-                </div>
+
+                <!-- Mensajes de la api  -->
+
                     <form [formGroup]="editForm">
                             <fieldset>                    
                                 <!-- Email Block -->
                                 <div class="form-group">
                                     <input  type="email"
-                                        id="inputEmail" formControlName="username"
-                                        placeholder="Email" required>
+                                        formControlName="username" placeholder="Email" >
                                 </div>
+
                                 <!-- Password Block -->
                                 <div class="form-group">
-                                <input type="text"
-                                    id="inputPassword"  formControlName="password"
-                                    placeholder="Password" required>
+                                        <input type="text"
+                                            formControlName="password" placeholder="Password" >
                                 </div>
-    
+
+                                <!-- Name Block -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="name" placeholder="Nombre">
+                                </div>
+
+                                <!-- Apellidos Block -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="paterno" placeholder="Apellido paterno" >
+                                </div>
+
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="materno" placeholder="Apellido materno" >
+                                </div>
+
+                                <!-- RFC -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="rfc" placeholder="RFC" >
+                                </div>
+
+                                <!-- Aniversario -->
+                                <div class="form-group">
+                                        <input type="date"
+                                            formControlName="aniversario" placeholder="Fecha de nacimiento" >
+                                </div>
+
+                                <!-- User type Block -->
+                                <div class="form-group">
+                                    <input type="radio" formControlName="tipo_persona" name="tipo_persona" value="Persona Moral" checked > Persona Moral<br>
+                                    <input type="radio" formControlName="tipo_persona" name="tipo_persona" value="Persona Fisica"> Persona Fisica <br>
+                                </div>
+
+                                <!-- Movil -->
+                                <div class="form-group">
+                                        <input type="tel"
+                                            formControlName="tel_movil" placeholder="Teléfono Móvil">
+                                </div>
+
+                                <!-- Telefono Directo -->
+                                <div class="form-group">
+                                        <input type="tel"
+                                            formControlName="tel_directo" placeholder="Teléfono Directo">
+                                </div>
+
+                                <!-- Calle  -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="calle" placeholder="Calle" >
+                                </div>
+
+                                <!-- Numero Exterior -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="num_exterior" placeholder="Número Exterior" >
+                                </div>
+
+                                <!-- Numero Interior -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="num_interior" placeholder="Número Interior" >
+                                </div>
+
+                                <!-- Colonia -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="colonia" placeholder="Colonia" >
+                                </div>
+
+                                <!-- Ciudad -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="ciudad" placeholder="Ciudad" >
+                                </div>
+
+                                <!-- Localidad -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="localidad" placeholder="Localidad" >
+                                </div>
+
+                                <!-- Estado -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="estado" placeholder="Estado" >
+                                </div>
+
+                                <!-- Pais -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="pais" placeholder="País" >
+                                </div>
+
+                                <!-- Codigo Postal -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="codigo_postal" placeholder="Codigo Postal" >
+                                </div>
+
+                                <!-- Metodo de pago -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="metodo_pago" placeholder="Método de Pago" >
+                                </div>
+                                
+                                <!-- Uso CFDI ? -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="uso_cfdi" placeholder="CFDI" >
+                                </div>
+
+                                <!-- Numero de cuenta -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="num_cuenta" placeholder="Número de Cuenta" >
+                                </div>
+
+                                <!-- Clabe de cuenta -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="clabe_cuenta" placeholder="Clabe de Cuenta" >
+                                </div>
+
+                                <!-- Nombre de cuenta -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="nombre_banco_cuenta" placeholder="Nombre de cuenta bancaria" >
+                                </div>
+
+                                <!-- Nombre de SAT en Cuenta -->
+                                <div class="form-group">
+                                        <input  type="text"
+                                            formControlName="nombre_sat_cuenta" placeholder="Nombre de SAT en cuenta bancaria" >
+                                </div>
+
+                                <!-- Estatus -->
+                                <div class="form-group">
+                                        <input type="radio" formControlName="estatus" name="estatus" value="activo" checked > Activo <br>
+                                        <input type="radio" formControlName="estatus" name="estatus" value="no_activo"> No activo <br>
+                                        <input type="radio" formControlName="estatus" name="estatus" value="bloqueado"> Bloqueado <br>
+                                </div>
+
                                 <!-- User type Block -->
                                 <div class="form-group" formGroupName="tipo">
                                     <div class="custom-control custom-checkbox">
@@ -184,18 +457,15 @@
                                 <!-- In case of admin -->
     
                                 <!-- In case of propiertary -->
+
+                                <!-- Nombre de SAT en Cuenta -->
                                 <div class="form-group" *ngIf="editForm.value.tipo.inquilino" >
-                                        <select class="custom-select" formControlName = "cuarto">
-                                            <option selected disabled>Cuarto</option>
-                                            <!-- ngfor para recorrer todos los cuartos o textbox? -->
-                                            <option value="1">001</option>
-                                            <option value="2">002</option>
-                                            <option value="3">003</option>
-                                        </select>             
+                                        <input  type="number"
+                                            formControlName="propiedad" placeholder="Id de Propiedad" >
                                 </div>
     
                                 <!-- In case of inquilino -->
-                                <!-- {{editForm.value | json}} -->
+                                {{editForm.value | json}}
     
     
                                 <!-- Buttons block -->
@@ -210,6 +480,24 @@
                 </div>
         </div>
 </ng-template>
-    
-     
+  
 
+
+<!--Small modal-->
+<ng-template #del  class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title pull-left">Eliminar usuario</h4>
+                      <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Confirma para eliminar el usuario</p>
+                          <button type="button" (click)="deleteUser()" class="btn btn-danger col mb-3 ">Eliminar usuario</button>
+                          <div class="login-help">
+                              <a (click)="closeModal()"> Cancelar  </a>
+                          </div>
+                    </div>
+                  </div>
+</ng-template>

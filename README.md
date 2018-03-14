@@ -8,6 +8,7 @@
 #### Requisitos:
 1. Tener instalado 
     - Ruby 
+    - Corre "bundle install"
     - Sinatra (gem install sinatra)
     - Mongo (gem install mongo)
     - json (gem install json)
@@ -16,6 +17,7 @@
 2. Entrar a la carpeta condos-api
 3. Compilar el archivo main (api.rb)
 4. El servidor debe de ejecutarse en localhost:5000
+5. En la carpeta /mongodump/dump correr el siguiente comando -> mongorestore --db condominios condominios
 
 ### Pasos para instalacion app frontend:
 

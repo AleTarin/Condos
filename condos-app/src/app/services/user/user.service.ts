@@ -1,34 +1,85 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from '../../shared/interfaces/user';
 import { environment } from '../../../environments/environment';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()
 export class UserService {
+    usuariosSubject: Subject<User>;
     headers: HttpHeaders;
 
     constructor(private http: HttpClient) {
-        this.headers = new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded');
-     }
+        const initialUser = JSON.parse(localStorage.getItem('currentUser') || null);
+        this.usuariosSubject = new Subject();
+    }
 
-    getAll() {
-        return this.http.get<User[]>(environment.endpointAPI + 'usuarios', {headers: this.headers});
+    getAllAdmin(username: string, nombre_condo: string) {
+        this.headers = new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded');
+        const body = new HttpParams().set('admin_username', username).set('nombre_condo', nombre_condo);
+
+        return this.http.post<User[]>(environment.endpointAPI + 'lista_manejar_usuarios', body, {headers: this.headers})
+            .map(user => {
+                return user['data']['usuarios'];
+            });
     }
 
     getById(id: number) {
         return this.http.get(environment.endpointAPI + 'usuarios/' + id , {headers: this.headers});
     }
 
-    create(user: User) {
-        return this.http.post(environment.endpointAPI + 'usuarios', user , {headers: this.headers}) ;
+    // ────────────────────────────────────────────────────────── CREA UN USUARIO ─────
+    // params (json ejemplo):
+    // {
+    // 	"username" : correo, es la llave primaria
+    // 	"password" : "admin",
+    // 	"nombre" : "Usuario",
+    // 	"paterno" : apellido paterno
+    // 	"materno" : apellido materno
+    // 	"rfc" : "XAX010101000",
+    // 	"aniversario" : fecha de nacimiento
+    // 	"tipo_persona" : persona fisica o moral
+    // 	"tel_movil" : "8181818181",
+    // 	"tel_directo" : "83838383",
+    // 	"calle" : "calle_usuario",
+    // 	"num_exterior" : "numext_usuario",
+    // 	"num_interior" : "numint_usuario",
+    // 	"colonia" : "colonia_usuario",
+    // 	"ciudad" : "ciudad_usuario",
+    // 	"localidad" : normalmente es lo mismo que ciudad
+    // 	"codigo_postal" : "66666",
+    // 	"estado" : "Nuevo Leon",
+    // 	"pais" : "Mexico",
+    // 	"metodo_pago" : "",
+    // 	"uso_cfdi" : "",
+    // 	"num_cuenta" : "",
+    // 	"clabe_cuenta" : "",
+    // 	"nombre_banco_cuenta" : "",
+    // 	"nombre_sat_cuenta" : "",
+    // 	"estatus" : activo, no_activo o bloquedao
+    // 	admin: nombre del condo que administra o false
+    // 	propietario: nombre del condo que administra o false
+    // 	inquilino: false o el siguiente json {
+    // 		nombre_condo:nombre del condo donde vive,
+    // 		propiedad: identificador de la propiedad donde vive
+    // 	}
+    // }
+    // ──────────────────────────────────────────────────────────────────────────────
+    create ( usuario: User) {
+        return this.http.post<string>(environment.endpointAPI + 'usuarios', usuario)
+        .map(res => {
+            console.log(res);
+            return res['data'];
+        });
     }
 
     update(user: User) {
-        return this.http.put(environment.endpointAPI + 'usuarios/' + user.id, user , {headers: this.headers});
+        return this.http.put(environment.endpointAPI + 'usuarios/' + user.username, user , {headers: this.headers});
     }
 
-    delete(id: number) {
-        return this.http.delete(environment.endpointAPI + 'users/' + id);
+    delete(username: string) {
+        return this.http.delete(environment.endpointAPI + 'usuarios/' + username);
     }
 }

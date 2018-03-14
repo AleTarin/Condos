@@ -39,7 +39,7 @@
   position: relative;
 }
 
-.loginmodal-container input[type=text], input[type=password], input[type=email] {
+.loginmodal-container input[type=text], input[type=password], input[type=email], input[type=date], input[type=tel], input[type=number] {
   height: 44px;
   font-size: 16px;
   width: 100%;
@@ -54,7 +54,7 @@
   -moz-box-sizing: border-box;
 }
 
-.loginmodal-container input[type=text]:hover, input[type=password]:hover, input[type=email]:hover {
+.loginmodal-container input[type=text]:hover, input[type=password]:hover, input[type=email]:hover, input[type=date]:hover, input[type=date]:hover, input[type=number]:hover {
   border: 1px solid #b9b9b9;
   border-top: 1px solid #a0a0a0;
   -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
@@ -106,6 +106,7 @@
 
 .login-help{
   font-size: 12px;
+  cursor: pointer;
 }
 
 .navbar{
@@ -119,3 +120,12 @@
 }
 
 .pointer {cursor: pointer;}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948 !important; /* green */
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid #a94442 !important; /* red */
+}
+
