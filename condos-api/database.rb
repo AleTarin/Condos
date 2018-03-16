@@ -265,14 +265,12 @@ end
 	def self.condominios()
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		return mongo[:condominio].find({}, projection: {password: 0}).to_a()
+		return mongo[:condominios].find({}).to_a()
 	end
 
 	def self.obtener_condominios(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		return mongo[:administra_condominios].find({:username => username}, projection: {condominio: 1, _id: 0}).to_a
+		return mongo[:administra_condominios].find({:username => username}).to_a()
 	end
-
-
 end

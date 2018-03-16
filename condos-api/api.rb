@@ -280,16 +280,16 @@ patch '/condominios' do
 	return {:estatus => 'ok', :data => 'Se actualizo condominio exitosamente'}.to_json()
 end
 
-
 # Borra un condoomio seleccionado.
 # El borrado solo puede ser realizado por un Admin
 # params: nombre_condo, username, password
+#todo no funciona
 delete '/condominios/:nombre_condo :username :password' do
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
 	if Database.obtener_usuario(params[:username]) == 'no_existe'
 		return {:status => 'error', :data => 'Usuario no existe'}.to_json()
 	end
-	Database.borrar_condominio(params[:nombre_condo]params[:username], params[:password])
+	Database.borrar_condominio(params[:nombre_condo], params[:username], params[:password])
 	return {:status => 'ok', :data => 'Condominio se borro exitosamente'}.to_json()
 end
 
@@ -305,7 +305,6 @@ end
 #Regresa el condominio que tenga el username como dueno
 #params: username
 get '/condominios/:username' do
-	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
 	if session[:username] == nil
 		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
 	end
