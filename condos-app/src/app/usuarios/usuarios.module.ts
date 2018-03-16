@@ -7,6 +7,7 @@ import { PropietaryMainComponent } from './propietary/propietary-main/propietary
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { AccordionModule, AccordionComponent, ModalModule } from 'ngx-bootstrap';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CondominiosComponent } from './condominios/condominios.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
     AdminMainComponent,
     PropietaryMainComponent,
     UsuariosComponent,
+    CondominiosComponent,
   ],
   providers: [LocalstorageService, AccordionComponent]
 })
