@@ -253,10 +253,19 @@ end
 		end
 	end
 
-	def self.borrar_condominio(username, password)
+	def self.borrar_condominio(nombre_condo, username, password)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		if self.es_tipo(username, 'admin')
+			borrado = {}
+			borrado[:administra_condominios] = mongo[:administra_condominios].find({:condominio => nombre_condo}, projection: {condominio: 1, _id: 0}).to_a
+			mongo[:administra_condominios].delete_many({:condominio => nombre_condo})
+
+			borrado[:propiedades] = mongo[:propiedades].find({:condominio => nombre_condo}, projection: {condominio: 1, _id: 0}).to_a
+			mongo[:propiedades].delete_many({:condominio => nombre_condo})
+
+			borrado[:condominio] = mongo[:condominio].find({:nombre => nombre_condo}, projection: {condominio: 1, _id: 0}).to_a
+			mongo[:borrados].insert_one(borrado)
 			mongo[:condominio].delete_one({:nombre => condo[:nombre]})
 		end
 	end
@@ -272,4 +281,5 @@ end
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		return mongo[:administra_condominios].find({:username => username}).to_a()
 	end
+
 end
