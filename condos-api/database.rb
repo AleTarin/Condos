@@ -75,14 +75,17 @@ module Database
 		data = {}
 		data[:usuarios] = []
 
-		mongo[:vive_en].find({:condominio => nombre_condo}, projection: {username: 1, _id:0}).to_a().each do |elem|
-			data[:usuarios].push(elem)
+		mongo[:vive_en].find({:condominio => nombre_condo}).to_a().each do |elem|
+			usuario = mongo[:usuarios].find({:username => elem[:username]}).first()
+			data[:usuarios].push(usuario)
 		end
-		mongo[:administra_condominios].find({:condominio => nombre_condo}, projection: {username: 1, _id:0}).to_a().each do |elem|
-			data[:usuarios].push(elem)
+		mongo[:administra_condominios].find({:condominio => nombre_condo}).to_a().each do |elem|
+			usuario = mongo[:usuarios].find({:username => elem[:username]}).first()
+			data[:usuarios].push(usuario)
 		end
-		mongo[:propietario_de].find({:condominio => nombre_condo}, projection: {username: 1, _id:0}).to_a().each do |elem|
-			data[:usuarios].push(elem)
+		mongo[:propietario_de].find({:condominio => nombre_condo}).to_a().each do |elem|
+			usuario = mongo[:usuarios].find({:username => elem[:username]}).first()
+			data[:usuarios].push(usuario)
 		end
 
 		data[:usuarios] = data[:usuarios].uniq
