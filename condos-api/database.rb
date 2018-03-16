@@ -103,7 +103,7 @@ module Database
 	def self.usuarios()
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		return mongo[:usuarios].find({}, projection: {password: 0}).to_a()
+		return mongo[:usuarios].find({}).to_a()
 	end
 
 	def self.cambiar_password(username, password_nueva)
@@ -181,11 +181,10 @@ module Database
 end
 =======
 
-	def self.actualizar_usuario(username, user)
+	def self.actualizar_usuario(username, datos_nuevos)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		mongo[:usuarios].update_one({:username => username}, {'$set' => {:username => user[:username]}})
-		mongo[:usuarios].update_one({:username => username}, {'$set' => {:password => user[:password]}})
+		mongo[:usuarios].update_one({:username => username}, {'$set' => datos_nuevos})
 	end
 >>>>>>> Marcar bug en endpoint put /usuarios; actualizar base de datos; agregar endpoint para borrar usuarios delete /usuarios/:username
 

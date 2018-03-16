@@ -104,10 +104,6 @@ end
 #-----------
 
 get '/usuarios' do
-	puts session[:username]
-	if session[:username] == nil
-		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
-	end
 	return Database.usuarios().to_json()
 end
 
@@ -174,9 +170,6 @@ end
 #Regresa el usuario que tenga el username ingresado
 #params: username
 get '/usuarios/:username' do
-	if session[:username] == nil
-		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
-	end
 	return Database.obtener_usuario(params[:username]).to_json()
 end
 
@@ -295,18 +288,17 @@ end
 
 #Regresa una lista de todos los condominios
 get '/condominios' do
-	puts session[:username]
-	if session[:username] == nil
-		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
-	end
 	return Database.condominios().to_json()
 end
 
 #Regresa el condominio que tenga el username como dueno
 #params: username
 get '/condominios/:username' do
-	if session[:username] == nil
-		return {:status => 'error', :data => 'No se ha iniciado sesion'}.to_json()
-	end
 	return Database.obtener_condominios(params[:username]).to_json()
+end
+
+patch '/usuarios' do
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+	Database.actualizar_usuario(params[:username], params)
+	return {:estatus => 'ok', :data => 'Se actualizo condominio exitosamente'}.to_json()
 end
