@@ -5,6 +5,7 @@ import { CarouselModule } from 'ngx-bootstrap';
 import { AuthService } from '../services/auth/auth.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from '../services/user/user.service';
+import { CondosService } from '../services/condos/condos.service';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { UserService } from '../services/user/user.service';
   providers: [
     AuthService,
     UserService,
+    CondosService,
     HttpClient,
   ]
 })

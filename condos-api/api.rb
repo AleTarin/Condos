@@ -300,5 +300,5 @@ end
 patch '/usuarios' do
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
 	Database.actualizar_usuario(params[:username], params)
-	return {:estatus => 'ok', :data => 'Se actualizo condominio exitosamente'}.to_json()
+	return {:estatus => 'ok', :data => 'Se actualizo el usuario exitosamente'}.to_json()
 end

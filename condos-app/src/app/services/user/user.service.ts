@@ -79,6 +79,10 @@ export class UserService {
         return this.http.put(environment.endpointAPI + 'usuarios/' + user.username, user , {headers: this.headers});
     }
 
+    patch(user: User) {
+        return this.http.patch(environment.endpointAPI + 'usuarios', user , {headers: this.headers});
+    }
+
     delete(username: string) {
         return this.http.delete(environment.endpointAPI + 'usuarios/' + username);
     }
