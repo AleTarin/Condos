@@ -4,12 +4,16 @@ import { WelcomePageComponent } from '../welcome/welcome-page/welcome-page.compo
 import { AdminMainComponent } from '../usuarios/admin/admin-main/admin-main.component';
 import { PropietaryMainComponent } from '../usuarios/propietary/propietary-main/propietary-main.component';
 import { InquilinoComponent } from '../usuarios/inquilino/inquilino.component';
+import { UsuariosComponent } from '../usuarios/usuarios/usuarios.component';
+import { CondominiosComponent } from '../usuarios/condominios/condominios.component';
 
 const routes: Routes = [
   {path: 'home', component: WelcomePageComponent},
   {path: 'admin', component: AdminMainComponent},
   {path: 'propietario', component: PropietaryMainComponent},
   {path: 'inquilino', component: InquilinoComponent},
+  {path: 'usuarios', component: UsuariosComponent},
+  {path: 'condominios', component: CondominiosComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home', pathMatch: 'full'},
 ];

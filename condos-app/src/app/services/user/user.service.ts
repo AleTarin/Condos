@@ -26,8 +26,8 @@ export class UserService {
             });
     }
 
-    getById(id: number) {
-        return this.http.get(environment.endpointAPI + 'usuarios/' + id , {headers: this.headers});
+    getByUsername(username: string) {
+        return this.http.get<User>(environment.endpointAPI + 'usuarios/' + username , {headers: this.headers});
     }
 
     // ────────────────────────────────────────────────────────── CREA UN USUARIO ─────
@@ -70,8 +70,7 @@ export class UserService {
     create ( usuario: User) {
         return this.http.post<string>(environment.endpointAPI + 'usuarios', usuario)
         .map(res => {
-            console.log(res);
-            return res['data'];
+            return res;
         });
     }
 

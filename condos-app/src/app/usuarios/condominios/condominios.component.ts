@@ -10,15 +10,20 @@ import { Condo, Propiedad } from '../../shared/interfaces/condo';
 })
 export class CondominiosComponent implements OnInit {
 
+  condos: any;
   constructor(private condoService: CondosService) { }
 
   ngOnInit() {
+    // Obtiene todos los condominios
     this.condoService.getAll().subscribe(condos => {
       console.log('get all', condos);
     });
 
+    // Obtiene todos los condominios administrados por un usuario (el que se utilizara en la pantalla)
     this.condoService.getByUser('ale.tarin10@gmail.com').subscribe(condos => {
       console.log('get by user', condos);
+      // Lo guardamos en la variable condos para usarlo en el template
+      this.condos = condos;
     });
 
     const newCondo = new Condo(
@@ -39,13 +44,15 @@ export class CondominiosComponent implements OnInit {
       []
     );
 
-    this.condoService.create(newCondo).subscribe(res => {
-      console.log('Create condo', res);
-    });
+    // Create, crear un nuevo condominio, recibe un objeto condominio
+    // this.condoService.create(newCondo).subscribe(res => {
+    //   console.log('Create condo', res);
+    // });
 
-    this.condoService.patch(newCondo).subscribe(res => {
-      console.log('Patch condo');
-    });
+    // Patch, se utiliza para actualizar el condominio, pasa un objeto condominio con los nuevos datos
+    // this.condoService.patch(newCondo).subscribe(res => {
+    //   console.log('Patch condo');
+    // });
   }
 
 }

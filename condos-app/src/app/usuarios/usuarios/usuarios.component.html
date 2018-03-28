@@ -1,12 +1,12 @@
 
 <div class="m-3">
-    <p class="float-left font-weight-bold">  Welcome admin  </p>
+    <!-- <p class="float-left font-weight-bold">  Welcome admin  </p> -->
     <button class="float-right pull-right btn btn-primary" (click)="refreshData()">Refrescar</button>
     <button type="button" (click)="openModal(add)" class="btn btn-primary float-right pull-right pr-3 pl-3 mr-3">Añadir usuario</button>
     <br><br>
 </div>
 
-<div class="container-fluid">
+<!-- <div class="container-fluid">
         <div class="row justify-content-center align-items-center"> 
                 <div class="float-left pull-left"> 
                     <h3>
@@ -15,7 +15,7 @@
                 </div> 
                 
         </div>
-    </div>
+    </div> -->
 
 
 <!-- Lista de usuarios -->
@@ -25,10 +25,11 @@
           {{ elem['username'] }}
       </span>
 
-      <div class="btn-group float-right pull-right ">
-        <label class="btn btn-outline-secondary " (click)="openModal(edit)" >Edit</label>
+
+  </div>
+  <div class="btn-group float-right pull-right ">
+        <label class="btn btn-outline-secondary " (click)="openEdit(edit, elem['username'])" >Edit</label>
         <label class="btn btn-outline-danger" (click)="openModal( del , elem['username'] )"> x</label>
-      </div>
   </div>
   <!-- (click)="deleteUser(elem)" -->
   {{ elem | json}}
@@ -88,6 +89,7 @@
     
                                     <!-- Aniversario -->
                                     <div class="form-group">
+                                            Aniversario
                                             <input type="date"
                                                 formControlName="aniversario" placeholder="Fecha de nacimiento" required>
                                     </div>
@@ -202,6 +204,7 @@
     
                                     <!-- Estatus -->
                                     <div class="form-group">
+                                        Estatus
                                             <input type="radio" formControlName="estatus" name="estatus" value="activo" > Activo <br>
                                             <input type="radio" formControlName="estatus" name="estatus" value="no_activo"> No activo <br>
                                             <input type="radio" formControlName="estatus" name="estatus" value="bloqueado"> Bloqueado <br>
@@ -209,6 +212,7 @@
     
                                     <!-- User type Block -->
                                     <div class="form-group" formGroupName="tipo">
+                                        Tipo de usuario
                                         <div class="custom-control custom-checkbox">
                                             <input class="custom-control-input" type="checkbox"
                                                 name="adminCheck" formControlName = "admin" id="adminCheck">
@@ -270,6 +274,9 @@
             <div class="justify-content-center align-items-center login">
 
                 <!-- Mensajes de la api  -->
+                <div class="alert alert-success" *ngIf="patchMessage" >
+                    {{patchMessage}}
+                </div>
 
                     <form [formGroup]="editForm">
                             <fieldset>                    
@@ -310,6 +317,7 @@
 
                                 <!-- Aniversario -->
                                 <div class="form-group">
+                                    Aniversario
                                         <input type="date"
                                             formControlName="aniversario" placeholder="Fecha de nacimiento" >
                                 </div>
@@ -424,13 +432,15 @@
 
                                 <!-- Estatus -->
                                 <div class="form-group">
+                                    Estatus <br>
                                         <input type="radio" formControlName="estatus" name="estatus" value="activo" checked > Activo <br>
                                         <input type="radio" formControlName="estatus" name="estatus" value="no_activo"> No activo <br>
                                         <input type="radio" formControlName="estatus" name="estatus" value="bloqueado"> Bloqueado <br>
                                 </div>
 
                                 <!-- User type Block -->
-                                <div class="form-group" formGroupName="tipo">
+                                <!-- <div class="form-group" formGroupName="tipo">
+                                        Tipo de usuario
                                     <div class="custom-control custom-checkbox">
                                         <input class="custom-control-input" type="checkbox"
                                             name="adminCheck" formControlName = "admin" id="adminCheck">
@@ -452,24 +462,24 @@
                                             Inquilino
                                         </label>
                                     </div>
-                                </div>
+                                </div> -->
                                 
                                 <!-- In case of admin -->
     
                                 <!-- In case of propiertary -->
 
-                                <!-- Nombre de SAT en Cuenta -->
+                                <!-- Propiedad -->
                                 <div class="form-group" *ngIf="editForm.value.tipo.inquilino" >
                                         <input  type="number"
                                             formControlName="propiedad" placeholder="Id de Propiedad" >
                                 </div>
     
                                 <!-- In case of inquilino -->
-                                {{editForm.value | json}}
+                                <!-- {{editForm.value | json}} -->
     
     
                                 <!-- Buttons block -->
-                                <input type="submit" class="login loginmodal-submit" value="Enviar">
+                                <input type="submit"  (click)="patchUser()" class="login loginmodal-submit" value="Enviar">
                                 
                                 <!-- Etiquetas abajo del login -->
                                 <div class="login-help">

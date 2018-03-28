@@ -7,6 +7,12 @@ require './database.rb'
 set(:port, 5000)
 enable :sessions
 
+before do
+	headers 'Access-Control-Allow-Origin' => '*', 
+            'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST', 'PATCH', 'PUT']  
+end
+
+
 
 #Valida un intento de login
 #params: username, password
