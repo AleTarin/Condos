@@ -1,15 +1,298 @@
 
-<accordion>
-  <accordion-group heading="Static Header, initially expanded">
-    This content is straight in the template.
-  </accordion-group>
-  <accordion-group heading="Another group">
-    <p>Some content</p>
-  </accordion-group>
-  <accordion-group heading="Another group">
-    <p>Some content</p>
-  </accordion-group>
-  <accordion-group heading="Another group">
-    <p>Some content</p>
-  </accordion-group>
-</accordion>
+<div class="m-3">
+  <button class="float-right pull-right btn btn-primary" (click)="refreshData()">Actualizar</button>
+  <button type="button" (click)="openModal(add)" class="btn btn-primary float-right pull-right pr-3 pl-3 mr-3">Añadir condominio</button>
+  <br><br>
+</div>
+
+<div class="container-fluid">
+      <div class="row justify-content-center align-items-center"> 
+              <div class="float-left pull-left"> 
+                  <h3>
+                          Lista de condominios 
+                  </h3>
+              </div> 
+              
+      </div>
+  </div>
+
+
+<!-- Lista de condominios -->
+<accordion-group #group *ngFor="let elem of user; let i = index" class="m-3 ">
+<div accordion-heading class="clearfix align-middle font-weight-bold pointer " >
+    <span class="align-middle">
+        {{ elem['condominio'] }}
+    </span>
+
+    <div class="btn-group float-right pull-right ">
+      <label class="btn btn-outline-secondary " (click)="openModal(edit)" >Edit</label>
+      <label class="btn btn-outline-danger" (click)="openModal( del , elem['condominio'] )"> x</label>
+    </div>
+</div>
+<!-- (click)="deleteUser(elem)" -->
+{{ elem | json}}
+</accordion-group>
+
+<!-- Modal para añadir condominio-->
+<ng-template #add>
+      <div class="modal-header">
+          <h4 class="modal-title pull-left">Añadir condominio</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+  
+      <div class="modal-body loginmodal-container">
+          <div class="justify-content-center align-items-center login">
+                  <div class="alert alert-success" *ngIf="createMessage" >
+                      {{createMessage}}
+                  </div>
+
+                  <form [formGroup]="CondominioForm">
+                    <fieldset>                    
+                            <!-- Name Block -->
+                            <div class="form-group">
+                                <input  type="text"
+                                    formControlName="nombre" placeholder="Nombre" required>
+                            </div>
+    
+                            <!-- Razon Social -->
+                            <div class="form-group">
+                                    <input type="text"
+                                        formControlName="razon_social" placeholder="Razón social" required>
+                            </div>
+    
+                            <!-- Telefono Movil -->
+                            <div class="form-group">
+                                    <input type="tel"
+                                        formControlName="tel_movil" placeholder="Teléfono Móvil" required>  
+                            </div>
+    
+                            <!-- Telefono Directo -->
+                            <div class="form-group">
+                                <input  type="tel"
+                                    formControlName="tel_directo" placeholder="Teléfono Directo" required>
+                            </div>
+                            
+                            <!-- Codigo Postal -->
+                            <div class="form-group">
+                                <input  type="text"
+                                    formControlName="codigo_postal" placeholder="Codigo Postal" required>
+                            </div>
+    
+                            <!-- Calle  -->
+                            <div class="form-group">
+                                    <input  type="text"
+                                        formControlName="calle" placeholder="Calle" required>
+                            </div>
+    
+                            <!-- Numero Exterior -->
+                            <div class="form-group">
+                                    <input  type="number"
+                                        formControlName="num_exterior" placeholder="Número Exterior" required>
+                            </div>
+    
+                            <!-- Numero Interior -->
+                            <div class="form-group">
+                                    <input  type="number"
+                                        formControlName="num_interior" placeholder="Número Interior" required>
+                            </div>
+    
+                            <!-- Colonia -->
+                            <div class="form-group">
+                                    <input  type="text"
+                                        formControlName="colonia" placeholder="Colonia" required>
+                            </div>
+    
+                            <!-- Ciudad -->
+                            <div class="form-group">
+                                    <input  type="text"
+                                        formControlName="ciudad" placeholder="Ciudad" required >
+                            </div>
+    
+                            <!-- Localidad -->
+                            <div class="form-group">
+                                    <input  type="text"
+                                        formControlName="localidad" placeholder="Localidad" required>
+                            </div>
+    
+                            <!-- Estado -->
+                            <div class="form-group">
+                                    <input  type="text"
+                                        formControlName="estado" placeholder="Estado" required>
+                            </div>
+    
+                            <!-- Pais -->
+                            <div class="form-group">
+                                <input  type="text"
+                                    formControlName="pais" placeholder="País" required>
+                            </div>
+    
+                            <!-- Imagen -->
+                            <div class="form-group">
+                                Subir imagen
+                                <br>
+                                <input  type="file"
+                                    formControlName="imagen"accept="image/*" title=" ">
+                             </div>
+
+                             <!-- Estatus -->
+                            <div class="form-group">
+                                <input  type="text"
+                                    formControlName="estatus" placeholder="Estatus" required>
+                            </div>
+
+                            <!-- Propiedades -->
+                            <div class="form-group">
+                                <input  type="text"
+                                    formControlName="propiedades" placeholder="Propiedades" required>
+                            </div>
+    
+                             <!-- Buttons block -->
+                             <input type="submit" class="login loginmodal-submit" value="Enviar">
+                                
+                             <!-- Etiquetas abajo del login -->
+                             <div class="login-help">
+                                 <a (click)="closeModal()"> Cancelar  </a>
+                             </div>
+                        </fieldset>
+            </form>
+              </div>
+      </div>
+</ng-template>
+
+<!-- Modal para editar condominio -->
+<ng-template #edit>
+      <div class="modal-header">
+          <h4 class="modal-title pull-left">Editar condominio</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+  
+      <div class="modal-body loginmodal-container">
+          <div class="justify-content-center align-items-center login">
+
+              <!-- Mensajes de la api  -->
+
+                  <form [formGroup]="editForm">
+                    <fieldset>                    
+                      <!-- Name Block -->
+                      <div class="form-group">
+                          <input  type="text"
+                              formControlName="name" placeholder="Nombre" required>
+                      </div>
+    
+                      <!-- Razon Social -->
+                      <div class="form-group">
+                              <input type="text"
+                                  formControlName="razon" placeholder="Razón social" required>
+                      </div>
+    
+                      <!-- Short Name Block -->
+                      <div class="form-group">
+                              <input  type="text"
+                                  formControlName="short_name" placeholder="Nombre corto" required>
+                      </div>
+    
+                      <!-- Telefono Oficina -->
+                      <div class="form-group">
+                              <input  type="tel"
+                                  formControlName="tel_oficina" placeholder="Teléfono de oficina" required>
+                      </div>
+    
+                      <!-- Telefono Movil -->
+                      <div class="form-group">
+                              <input type="tel"
+                                  formControlName="tel_movil" placeholder="Teléfono Móvil" required>  
+                      </div>
+    
+                      <!-- Codigo Postal -->
+                      <div class="form-group">
+                          <input  type="text"
+                              formControlName="codigo_postal" placeholder="Codigo Postal" required>
+                      </div>
+    
+                      <!-- Calle  -->
+                      <div class="form-group">
+                              <input  type="text"
+                                  formControlName="calle" placeholder="Calle" required>
+                      </div>
+    
+                      <!-- Numero Exterior -->
+                      <div class="form-group">
+                              <input  type="number"
+                                  formControlName="num_exterior" placeholder="Número Exterior" required>
+                      </div>
+    
+                      <!-- Numero Interior -->
+                      <div class="form-group">
+                              <input  type="number"
+                                  formControlName="num_interior" placeholder="Número Interior" required>
+                      </div>
+    
+                      <!-- Colonia -->
+                      <div class="form-group">
+                              <input  type="text"
+                                  formControlName="colonia" placeholder="Colonia" required>
+                      </div>
+    
+                      <!-- Ciudad -->
+                      <div class="form-group">
+                              <input  type="text"
+                                  formControlName="ciudad" placeholder="Ciudad" required >
+                      </div>
+    
+                      <!-- Localidad -->
+                      <div class="form-group">
+                              <input  type="text"
+                                  formControlName="localidad" placeholder="Localidad" required>
+                      </div>
+    
+                      <!-- Estado -->
+                      <div class="form-group">
+                              <input  type="text"
+                                  formControlName="estado" placeholder="Estado" required>
+                      </div>
+    
+                      <!-- Pais -->
+                      <div class="form-group">
+                          <input  type="text"
+                              formControlName="pais" placeholder="País" required>
+                      </div>
+    
+                      <!-- Imagen -->
+                      <div class="form-group">
+                          Subir imagen
+                          <br>
+                          <input  type="file"
+                              formControlName="imagen"accept="image/*" title=" ">
+                      </div>
+    
+                      
+                  </fieldset>
+                  </form>
+              </div>
+      </div>
+</ng-template>
+
+
+
+<!--Small modal-->
+<ng-template #del  class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title pull-left">Eliminar condominio</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <p>Confirma para eliminar el condominio</p>
+                        <button type="button" (click)="deleteUser()" class="btn btn-danger col mb-3 ">Eliminar condominio</button>
+                        <div class="login-help">
+                            <a (click)="closeModal()"> Cancelar  </a>
+                        </div>
+                  </div>
+                </div>
+</ng-template>
