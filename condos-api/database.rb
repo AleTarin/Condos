@@ -109,6 +109,12 @@ module Database
 		return mongo[:usuarios].find({}).to_a()
 	end
 
+	def self.todoUsuarios()
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		return mongo[:usuarios].aggregate([mongo[:usuarios], mongo[:condominios]]).find({}).to_a()
+	end
+
 	def self.cambiar_password(username, password_nueva)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
@@ -259,15 +265,16 @@ end
 	def self.borrar_condominio(nombre_condo, username, password)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		borrado = {}
+		borrado[:condominio] = nombre_condo
+
 		if self.es_tipo(username, 'admin')
-			borrado = {}
 			borrado[:administra_condominios] = mongo[:administra_condominios].find({:condominio => nombre_condo}, projection: {condominio: 1, _id: 0}).to_a
 			mongo[:administra_condominios].delete_many({:condominio => nombre_condo})
 
 			borrado[:propiedades] = mongo[:propiedades].find({:condominio => nombre_condo}, projection: {condominio: 1, _id: 0}).to_a
 			mongo[:propiedades].delete_many({:condominio => nombre_condo})
 
-			borrado[:condominio] = mongo[:condominio].find({:nombre => nombre_condo}, projection: {condominio: 1, _id: 0}).to_a
 			mongo[:borrados].insert_one(borrado)
 			mongo[:condominio].delete_one({:nombre => condo[:nombre]})
 		end
@@ -277,6 +284,13 @@ end
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		return mongo[:condominios].find({}).to_a()
+	end
+
+	def self.todoCondominios()
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+
+		return mongo[:condominios].aggregate([mongo[:condominios], mongo[:usuarios]]).find({}).to_a()
 	end
 
 	def self.obtener_condominios(username)

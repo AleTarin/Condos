@@ -110,7 +110,8 @@ end
 #-----------
 
 get '/usuarios' do
-	return Database.usuarios().to_json()
+	# return Database.usuarios().to_json()
+	return Database.todoUsuarios().to_json()
 end
 
 #Cambia la password de un usuario
@@ -294,7 +295,8 @@ end
 
 #Regresa una lista de todos los condominios
 get '/condominios' do
-	return Database.condominios().to_json()
+	# return Database.condominios().to_json()
+	return Database.todoCondominios().to_json()
 end
 
 #Regresa el condominio que tenga el username como dueno
