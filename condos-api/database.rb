@@ -64,31 +64,34 @@ module Database
 	def self.lista_manejar_usuarios(username_admin, nombre_condo)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		if !self.es_tipo(username_admin, 'admin')
-			return 'no_es_admin'
-		end
-
-		if mongo[:administra_condominios].find({:username => username_admin, :condominio => nombre_condo}).count == 0
-			return 'no_administra'
-		end
 
 		data = {}
-		data[:usuarios] = []
+		data[:admins] = []
+		data[:propietarios_condo] = []
+		data[:propietarios_propiedad] = []
+		data[:responsables] = []
 
-		mongo[:vive_en].find({:condominio => nombre_condo}).to_a().each do |elem|
-			usuario = mongo[:usuarios].find({:username => elem[:username]}).first()
-			data[:usuarios].push(usuario)
+		mongo[:administra_condominios].find({:condominio => nombre_condo},projection: {_id: 0}).to_a().each do |elem|
+			usuario = mongo[:usuarios].find({:username => elem[:username]},projection: {_id: 0}).first()
+			data[:admins].push(usuario)
 		end
-		mongo[:administra_condominios].find({:condominio => nombre_condo}).to_a().each do |elem|
-			usuario = mongo[:usuarios].find({:username => elem[:username]}).first()
-			data[:usuarios].push(usuario)
+		mongo[:propietario_de].find({:condominio => nombre_condo},projection: {_id: 0}).to_a().each do |elem|
+			usuario = mongo[:usuarios].find({:username => elem[:username]},projection: {_id: 0}).first()
+			data[:propietarios_condo].push(usuario)
 		end
-		mongo[:propietario_de].find({:condominio => nombre_condo}).to_a().each do |elem|
-			usuario = mongo[:usuarios].find({:username => elem[:username]}).first()
-			data[:usuarios].push(usuario)
+		mongo[:propiedades].find({:condominio => nombre_condo},projection: {_id: 0}).to_a().each do |elem|
+			usuario = mongo[:usuarios].find({:propietario => elem[:username]},projection: {_id: 0}).first()
+			data[:propietarios_propiedad].push(usuario)
 		end
-
-		data[:usuarios] = data[:usuarios].uniq
+		mongo[:propiedades].find({:condominio => nombre_condo},projection: {_id: 0}).to_a().each do |elem|
+			usuario = mongo[:usuarios].find({:responsable => elem[:username]},projection: {_id: 0}).first()
+			data[:responsables].push(usuario)
+		end
+		
+		data[:admins] = data[:admins].uniq
+		data[:propietarios_condo] = data[:propietarios_condo].uniq
+		data[:propietarios_propiedad] = data[:propietarios_propiedad].uniq
+		data[:responsables] = data[:responsables].uniq
 		return data
 	end
 

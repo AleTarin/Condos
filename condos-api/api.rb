@@ -35,6 +35,7 @@ end
 #params: admin_username, nombre_condo
 post '/lista_manejar_usuarios' do
 
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
 	data = Database.lista_manejar_usuarios(params[:admin_username], params[:nombre_condo])
 
 	if data == 'no_es_admin'
@@ -45,7 +46,7 @@ post '/lista_manejar_usuarios' do
 		return {:status => 'error', :data => 'Este usuario no administra este condominio'}.to_json()
 	end
 
-	return {:status => 'ok', :data => data}.to_json()
+	return data.to_json()
 end
 
 #Envia un correo a un usuario que haya olvidad su password
