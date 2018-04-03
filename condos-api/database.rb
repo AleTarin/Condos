@@ -296,26 +296,26 @@ end
 		condos = {}
 		condos[:condominios] = []
 		condos[:administra_condominios] = mongo[:administra_condominios].find({:username => username}, projection: {_id:0}).to_a()
-		condos[:propiedades_propietario] = mongo[:propiedades].find({:propietario => username}, projection: {_id:0}).to_a()
-		condos[:propiedades_responsable] = mongo[:propiedades].find({:responsable => username}, projection: {_id:0}).to_a()
-		condos[:condominios_propietario] = mongo[:propietario_de].find({:username => username}, projection: {_id:0}).to_a()
+		#condos[:propiedades_propietario] = mongo[:propiedades].find({:propietario => username}, projection: {_id:0}).to_a()
+		#condos[:propiedades_responsable] = mongo[:propiedades].find({:responsable => username}, projection: {_id:0}).to_a()
+		#condos[:condominios_propietario] = mongo[:propietario_de].find({:username => username}, projection: {_id:0}).to_a()
 		condos[:administra_condominios].each do |elem|
 			condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
 		end
-		condos[:propiedades_propietario].each do |elem|
-			condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
-		end
-		condos[:propiedades_responsable].each do |elem|
-			condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
-		end
-		condos[:condominios_propietario].each do |elem|
-			condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
-		end
-		condos[:administra_condominios].each do |elem|
-			condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
-		end
+		#condos[:propiedades_propietario].each do |elem|
+			#condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
+		#end
+		#condos[:propiedades_responsable].each do |elem|
+			#condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
+		#end
+		#condos[:condominios_propietario].each do |elem|
+			#condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
+		#end
+		#condos[:administra_condominios].each do |elem|
+			#condos[:condominios].push(mongo[:condominios].find({:nombre => elem[:condominio]}, projection:{_id:0}).first())
+		#end
 		condos[:condominios] = condos[:condominios].uniq()
-		return condos
+		return condos[:condominios]
 	end
 
 	def self.condominio_existe(nombre_condo)
