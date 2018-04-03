@@ -298,7 +298,8 @@ end
 #Regresa el condominio que tenga el username como dueno
 #params: username
 get '/condominios/:username' do
-	return Database.obtener_condominios(params[:username]).to_json()
+	condos = Database.obtener_condominios(params[:username])
+	return condos.to_json()
 end
 
 patch '/usuarios' do

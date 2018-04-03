@@ -224,7 +224,6 @@ end
 	def self.crear_condominio(condo)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		return
 		if mongo[:condominios].find({:nombre => condo[:nombre]}).count() >= 1
 			return 'ya_existe'
 		end
@@ -288,14 +287,18 @@ end
 	def self.todoCondominios()
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-
 		return mongo[:condominios].aggregate([mongo[:condominios], mongo[:usuarios]]).find({}).to_a()
 	end
 
 	def self.obtener_condominios(username)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		return mongo[:administra_condominios].find({:username => username}).to_a()
+		condos = {}
+		condos[:administra_condominios] = mongo[:administra_condominios].find({:username => username}).to_a()
+		condos[:condominios_propietario] = mongo[:propiedades].find({:propietario => username}).to_a()
+		condos[:propiedades_responsable] = mongo[:propiedades].find({:responsable => username}).to_a()
+		condos[:propiedades_propietario] = mongo[:propietario_de].find({:username => username}).to_a()
+		return condos
 	end
 
 	def self.condominio_existe(nombre_condo)
