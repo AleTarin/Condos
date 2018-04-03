@@ -41,11 +41,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createNewForm();
-    // const usuarioPrueba = new User('ale.tarin10@gmail.com', 'admin');
-    // this.UserServ.patch(usuarioPrueba).subscribe(usuario => {
-    //   console.log(usuario);
-    // });
-
     this.subscribeToData();
 
     this.adminName = this.storage.getfromLocalStorage('currentUser')['admin'][0]['username'];
@@ -89,7 +84,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         if (usuario) {
           this.createEditForm(usuario);
           this.modalRef = this.modalService.show(template);
-          console.log(usuario);
         }
       });
   }

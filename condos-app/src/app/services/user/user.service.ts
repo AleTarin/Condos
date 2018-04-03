@@ -17,16 +17,16 @@ export class UserService {
     }
 
     getAllAdmin(username: string, nombre_condo: string) {
-        const b = {'admin_name': username, 'nombre_condo': nombre_condo};
         const body = new HttpParams().set('admin_username', username).set('nombre_condo', nombre_condo);
 
-        return this.http.post<User[]>(environment.endpointAPI + 'lista_manejar_usuarios', b, {headers: this.headers})
+        return this.http.post<User[]>(environment.endpointAPI + 'lista_manejar_usuarios', body, {headers: this.headers})
             .map(user => {
                 return user['data']['admins'];
             });
     }
 
     getByUsername(username: string) {
+        this.headers.append('Content-Type', 'application/json');
         return this.http.get<User>(environment.endpointAPI + 'usuarios/' + username , {headers: this.headers});
     }
 
@@ -75,10 +75,12 @@ export class UserService {
     }
 
     update(user: User) {
+        this.headers.append('Content-Type', 'application/json');
         return this.http.put(environment.endpointAPI + 'usuarios/' + user.username, user , {headers: this.headers});
     }
 
     patch(user: User) {
+        this.headers.append('Content-Type', 'application/json');
         return this.http.patch(environment.endpointAPI + 'usuarios', user , {headers: this.headers});
     }
 

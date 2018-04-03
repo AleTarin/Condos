@@ -9,8 +9,9 @@ enable :sessions
 
 before do
 	headers 'Access-Control-Allow-Origin' => '*', 
-            'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST', 'PATCH', 'PUT']  
-end
+			'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST', 'PATCH', 'PUT'],
+			'Content-Type' => 'application/json'
+ end
 
 #Valida un intento de login
 #params: username, password
@@ -310,3 +311,10 @@ patch '/usuarios' do
 	Database.actualizar_usuario(params[:username], params)
 	return {:estatus => 'ok', :data => 'Se actualizo el usuario exitosamente'}.to_json()
 end
+
+options "*" do
+    response.headers["Allow"] = "GET, POST, OPTIONS, PATCH, PUT"
+    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    200
+  end

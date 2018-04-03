@@ -50,7 +50,6 @@ export class CondosService {
   create (condo: Condo) {
       return this.http.post<string>(environment.endpointAPI + 'condominios', condo)
       .map(res => {
-          console.log(res);
           return res;
       });
   }

@@ -79,8 +79,8 @@ export class CondominiosComponent implements OnInit, OnDestroy{
 
   deleteUser(condominio: string) {
     this.condoService.delete(this.toBeDeleted).subscribe();
-    this.refreshData();
     this.closeModal();
+    this.subscribeToData();
   }
   newCondominio() {
     //const adminData = this.condominioForm.get('tipo').value.admin ? this.adminCondo : false;
@@ -140,10 +140,57 @@ export class CondominiosComponent implements OnInit, OnDestroy{
     this.condoService.patch(editCondo).subscribe(res => {
       this.patchMessage = res['data'];
     });
-    this.refreshData();
+
+    this.subscribeToData();
   }
 
-  resetUserData(): any {
+  openEdit(template: TemplateRef<any>, condo: Condo) {
+      if ( condo ) {
+        this.createEditForm( condo );
+        this.modalRef = this.modalService.show(template);
+      }
+}
+
+  // _______________________________________________ FUNCTIONS TO CREATE REACTIVE FORMS
+  createNewForm() {
+    this.condominioForm = new FormGroup({ // __________________ To create new condominio
+      name: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      razon: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      tel_directo: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      tel_movil: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      codigo_postal: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      calle: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      num_exterior: new FormControl('', [ Validators.required ]),
+      num_interior:  new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      colonia: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      ciudad: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      localidad: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      estado: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      pais: new FormControl('', [ Validators.required , Validators.minLength(4)]),
+      estatus: new FormControl('activo', [ Validators.required])
+    });
+  }
+
+  createEditForm( condo: Condo) {
+    this.editForm = new FormGroup({ // __________________ To edit the condominio
+      name: new FormControl(condo.nombre),
+      razon: new FormControl(condo.razon_social),
+      tel_directo: new FormControl(condo.tel_directo),
+      tel_movil: new FormControl(condo.tel_movil),
+      codigo_postal: new FormControl(condo.codigo_postal),
+      calle: new FormControl(condo.calle),
+      num_exterior: new FormControl(condo.num_exterior),
+      num_interior:  new FormControl(condo.num_interior),
+      colonia: new FormControl(condo.colonia),
+      ciudad: new FormControl(condo.ciudad),
+      localidad: new FormControl(condo.localidad),
+      estado: new FormControl(condo.estado),
+      pais: new FormControl(condo.pais),
+      estatus: new FormControl(condo.estatus),
+    });
+  }
+
+  resetCondoData(): any {
     this.condominioForm.reset();
   }
 
