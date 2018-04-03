@@ -22,7 +22,7 @@ export class UserService {
 
         return this.http.post<User[]>(environment.endpointAPI + 'lista_manejar_usuarios', body, {headers: this.headers})
             .map(user => {
-                return user['data']['usuarios'];
+                return user['data'];
             });
     }
 

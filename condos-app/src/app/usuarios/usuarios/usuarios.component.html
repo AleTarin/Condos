@@ -32,7 +32,102 @@
         <label class="btn btn-outline-danger" (click)="openModal( del , elem['username'] )"> x</label>
   </div>
   <!-- (click)="deleteUser(elem)" -->
-  {{ elem | json}}
+    <!-- {{ elem | json}} -->
+  <table style="width:100%">
+    <tr>
+      <td><b> Nombre completo:</b></td>
+      <td> {{ elem['nombre'] + " " + elem['paterno'] + " " + elem['materno']}}</td>
+    </tr>
+    <tr>
+        <td><b> RFC:</b></td> 
+        <td>{{ elem['rfc']}}</td>
+    </tr>
+    <tr>
+        <td><b> Aniversario:</b></td> 
+        <td>{{ elem['aniversario']}}</td>
+    </tr>
+    <tr>
+        <td><b> Tipo Persona:</b></td> 
+        <td>{{ elem['tipo_persona']}}</td>
+    </tr>
+    <tr>
+        <td><b> Teléfono Móvil:</b></td> 
+        <td>{{ elem['tel_movil']}}</td>
+    </tr>
+    <tr>
+        <td><b> Teléfono Directo:</b></td>
+        <td> {{ elem['tel_directo']}}</td>
+    </tr>
+    <tr>
+        <td><b> Calle:</b></td>
+        <td> {{ elem['calle']}}</td>
+    </tr>
+    <tr>
+        <td><b> Colonia:</b></td>
+        <td> {{ elem['colonia']}}</td>
+    </tr>
+    <tr>
+        <td><b> Ciudad:</b></td>
+        <td> {{ elem['ciudad']}}</td>
+    </tr>
+    <tr>
+        <td><b> Localidad:</b></td>
+        <td> {{ elem['localidad']}}</td>
+    </tr>
+    <tr>
+        <td><b> Código Postal:</b></td>
+        <td> {{ elem['codigo_postal']}}</td>
+    </tr>
+    <tr>
+        <td><b> Estado:</b></td>
+        <td> {{ elem['estado']}}</td>
+    </tr>
+    <tr>
+        <td><b> País:</b></td>
+        <td> {{ elem['pais']}}</td>
+    </tr>
+
+
+    <tr>                
+        <td><b> Número Exterior:</b></td> 
+        <td> {{ elem['num_exterior']}}</td>
+    </tr>
+
+    <tr>            
+        <td><b> Número Interior:</b></td>
+        <td> {{ elem['num_interior']}}</td>
+    </tr>
+
+    <tr>
+        <td><b> Número de cuenta:</b></td>
+        <td> {{ elem['num_cuenta']}}</td>
+    </tr>
+    <tr>
+        <td><b> Nombre de cuenta de banco:</b></td>
+        <td> {{ elem['nombre_banco_cuenta']}}</td>
+    </tr>
+    <tr>
+        <td><b> Clabe de cuenta bancaria:</b></td>
+        <td> {{ elem['clabe_cuenta']}}</td>
+    </tr>
+    
+    <tr>
+        <td><b> Nombre de cuenta SAT: </b></td>
+        <td> {{ elem['nombre_sat_cuenta']}}</td>
+    </tr>
+    <tr>
+        <td><b> Método de pago:</b></td>
+        <td> {{ elem['metodo_pago']}}</td>
+    </tr>
+    <tr>
+        <td><b> Uso de CFDI:</b></td>
+        <td> {{ elem['uso_cfdi']}}</td>
+    </tr>
+    <tr>
+        <td><b> Estatus:</b></td>
+        <td> {{ elem['estatus']}}</td>
+    </tr>
+  </table>
 </accordion-group>
 
 <!-- Modal para añadir usuario-->

@@ -29,8 +29,76 @@
       <label class="btn btn-outline-danger" (click)="openModal( del , elem['condominio'] )"> x</label>
     </div>
 </div>
+<<<<<<< HEAD
 <!-- (click)="deleteUser(elem)" -->
 {{ elem | json}}
+=======
+<div class="btn-group float-right pull-right ">
+        <label class="btn btn-outline-secondary " (click)="openEdit(edit, elem)" >Edit</label>
+        <label class="btn btn-outline-danger" (click)="openModal( del , elem['nombre'])"> x</label>
+      </div>
+<!-- (click)="deleteUser(elem)" -->
+
+<table style="width:100%">
+        <tr>
+          <td><b> Razón Social:</b></td>
+          <td> {{ elem['razon_social']}}</td>
+        </tr>
+        <tr>
+            <td><b> Teléfono Móvil:</b></td> 
+            <td>{{ elem['tel_movil']}}</td>
+        </tr>
+        <tr>
+            <td><b> Teléfono Directo:</b></td>
+            <td> {{ elem['tel_directo']}}</td>
+        </tr>
+        <tr>
+            <td><b> Calle:</b></td>
+            <td> {{ elem['calle']}}</td>
+        </tr>
+        <tr>
+            <td><b> Colonia:</b></td>
+            <td> {{ elem['colonia']}}</td>
+        </tr>
+        <tr>
+            <td><b> Ciudad:</b></td>
+            <td> {{ elem['ciudad']}}</td>
+        </tr>
+        <tr>
+            <td><b> Localidad:</b></td>
+            <td> {{ elem['localidad']}}</td>
+        </tr>
+        <tr>
+            <td><b> Código Postal:</b></td>
+            <td> {{ elem['codigo_postal']}}</td>
+        </tr>
+        <tr>
+            <td><b> Estado:</b></td>
+            <td> {{ elem['estado']}}</td>
+        </tr>
+        <tr>
+            <td><b> País:</b></td>
+            <td> {{ elem['pais']}}</td>
+        </tr>
+        <tr>                
+            <td><b> Url de imagen:</b></td>
+            <td> {{ elem['imagen']}}</td>
+
+        <tr>
+            <td><b> Estatus:</b></td>
+            <td> {{ elem['estatus']}}</td>
+        </tr>
+        <tr>                
+            <td><b> Número Exterior:</b></td> 
+            <td> {{ elem['num_exterior']}}</td>
+        </tr>
+
+        <tr>            
+            <td><b> Número Interior:</b></td>
+            <td> {{ elem['num_interior']}}</td>
+        </tr>
+      </table>
+>>>>>>> added delete and fixed condominios
 </accordion-group>
 
 <!-- Modal para añadir condominio-->
@@ -289,7 +357,7 @@
                   </div>
                   <div class="modal-body">
                       <p>Confirma para eliminar el condominio</p>
-                        <button type="button" (click)="deleteUser()" class="btn btn-danger col mb-3 ">Eliminar condominio</button>
+                        <button type="button" (click)="deleteCondo()" class="btn btn-danger col mb-3 ">Eliminar condominio</button>
                         <div class="login-help">
                             <a (click)="closeModal()"> Cancelar  </a>
                         </div>

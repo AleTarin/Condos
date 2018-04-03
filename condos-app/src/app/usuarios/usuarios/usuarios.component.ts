@@ -177,6 +177,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.UserServ.delete(this.toBeDeleted).subscribe();
     this.refreshData();
     this.closeModal();
+    this.refreshData();
+
   }
 
   newUser() {
@@ -222,9 +224,9 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.createMessage = res['data'];
       if (res['status'] !== 'error') {
         this.resetUserData();
+        this.refreshData();
       }
     });
-    this.refreshData();
   }
 
   patchUser() {

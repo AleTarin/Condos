@@ -14,7 +14,8 @@ export class Condo {
         public pais?: string,
         public imagen?: string,
         public estatus?: string,
-        public propiedades?: Propiedad[]
+        public propiedades?: Propiedad[],
+        public admin?: string
     ) {}
 }
 

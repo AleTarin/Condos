@@ -15,6 +15,10 @@ import { Observable } from 'rxjs/Observable';
 })
 export class CondominiosComponent implements OnInit, OnDestroy{
 
+  username: string;
+  condos: Condo[];
+
+    // Obtiene todos los condominios
   editForm: FormGroup;
   condominioForm: FormGroup;
 
@@ -25,83 +29,19 @@ export class CondominiosComponent implements OnInit, OnDestroy{
 
   timerSubscription: Subscription;
   condoSubscription: Subscription;
-
-  
   createMessage: string;
 
   constructor(
     private storage: LocalstorageService, private condoService: CondosService , private modalService: BsModalService) { }
-ngOnInit() {
-    this.condoService.getAll().subscribe(condos => {
-      console.log('get all', condos);
-    });
 
-    // Obtiene todos los condominios administrados por un usuario (el que se utilizara en la pantalla)
-    this.condoService.getByUser('ale.tarin10@gmail.com').subscribe(condos => {
-      console.log('get by user', condos);
-      // Lo guardamos en la variable condos para usarlo en el template
+  // _______________________________________________________________LIFE CYCLE's FUNCTIONS
+  ngOnInit() {
+
+    this.createNewForm();
+    this.username = this.storage.getfromLocalStorage('currentUser')['admin'][0].username;
+    this.condoService.getByUser(this.username).subscribe(condos => {
       this.condos = condos;
     });
-
-    const newCondo = new Condo(
-      'Alejandro',
-      'SA de CV',
-      '8181818181',
-      '83838383',
-      'calle_condo',
-      'numext',
-      'numint',
-      'colonia_condo',
-      'ciudad_condo',
-      'ciudad_condo',
-      '66666',
-      'Mexico',
-      'path a la imag',
-      'activo',
-      []
-    );
-
-    this.condominioForm = new FormGroup({ // __________________ To create new condominio
-      name: new FormControl('', [ Validators.required , Validators.minLength(4), Validators.email]),
-      razon: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      short_name:  new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      tel_oficina: new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      tel_movil: new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      codigo_postal: new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      calle: new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      num_exterior: new FormControl('', [ Validators.required ]),
-      num_interior:  new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      colonia: new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      ciudad: new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      localidad: new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      estado: new FormControl('', [ Validators.required , Validators.minLength(4)]),
-      pais: new FormControl('', [ Validators.required , Validators.minLength(4)])
-    });
-
-    this.editForm = new FormGroup({ // __________________ To edit the condominio
-      name: new FormControl(''),
-      razon: new FormControl(''),
-      short_name:  new FormControl(''),
-      tel_oficina: new FormControl(''),
-      tel_movil: new FormControl(''),
-      codigo_postal: new FormControl(''),
-      calle: new FormControl(''),
-      num_exterior: new FormControl(''),
-      num_interior:  new FormControl(''),
-      colonia: new FormControl(''),
-      ciudad: new FormControl(''),
-      localidad: new FormControl(''),
-      estado: new FormControl(''),
-      pais: new FormControl('')
-    });
-    this.condoService.create(newCondo).subscribe(res => {
-      console.log('Create condo', res);
-    });
-
-    // Patch, se utiliza para actualizar el condominio, pasa un objeto condominio con los nuevos datos
-    // this.condoService.patch(newCondo).subscribe(res => {
-    //   console.log('Patch condo');
-    // });
   }
   refreshData() {
     this.condoSubscription = this.condoService.getAll()
@@ -124,11 +64,11 @@ ngOnInit() {
     }
   }
 
-  openModal(template: TemplateRef<any>, condominio?: string) {
-    if ( condominio ) {
-      this.toBeDeleted = condominio;
-    }
-    this.modalRef = this.modalService.show(template);
+  // _________________________________________________________________________ DATA MANAGEMENT FUNCTIONS
+  refreshData() {
+    this.condoService.getByUser(this.username).subscribe(condos => {
+      this.condos = condos;
+    });
   }
 
   closeModal() {
@@ -164,14 +104,42 @@ ngOnInit() {
       this.pais.value,
       this.image.value,
       this.estatus.value,
-      this.propiedades.value
-      //adminData,
-      //propData,
-      //inquilData
+      [],
+      this.username
     );
 
-    this.condoService.create(nuevoCondominio).subscribe(res => this.createMessage = res);
-    this.resetUserData();
+    this.condoService.create(nuevoCondominio).subscribe(res => {
+      if (res['status'] === 'ok') {
+        this.resetCondoData();
+        this.refreshData();
+      }
+      this.createMessage = res['data'];
+    } );
+  }
+
+  patchCondominio() {
+    const editCondo = new Condo(
+      this.nombreEdit.value,
+      this.razon_socialEdit.value,
+      this.tel_movilEdit.value,
+      this.tel_directoEdit.value,
+      this.calleEdit.value,
+      this.num_exteriorEdit.value,
+      this.num_interiorEdit.value,
+      this.coloniaEdit.value,
+      this.ciudadEdit.value,
+      this.localidadEdit.value,
+      this.codigo_postalEdit.value,
+      this.estadoEdit.value,
+      this.paisEdit.value,
+      'path a la img',
+      this.estatusEdit.value,
+      []
+    );
+
+    this.condoService.patch(editCondo).subscribe(res => {
+      this.patchMessage = res['data'];
+    });
     this.refreshData();
   }
 

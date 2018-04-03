@@ -11,11 +11,11 @@ export class CondosService {
   }
 
   getAll() {
-      return this.http.get<Condo[]>(environment.endpointAPI + '/condominios', {headers: this.headers});
+      return this.http.get<Condo[]>(environment.endpointAPI + 'condominios', {headers: this.headers});
   }
 
   getByUser(username: string) {
-      return this.http.get(environment.endpointAPI + 'condominios/' + username , {headers: this.headers});
+      return this.http.get<Condo[]>(environment.endpointAPI + 'condominios/' + username , {headers: this.headers});
   }
 
   // ────────────────────────────────────────────────────────── CREA UN CONDO ─────
