@@ -1,0 +1,2 @@
+#!/bin/bash
+http delete :5000/condominios '{"condominio":"$1"}'

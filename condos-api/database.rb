@@ -224,6 +224,7 @@ end
 	def self.crear_condominio(condo)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		return
 		if mongo[:condominios].find({:nombre => condo[:nombre]}).count() >= 1
 			return 'ya_existe'
 		end
@@ -262,22 +263,20 @@ end
 		end
 	end
 
-	def self.borrar_condominio(nombre_condo, username, password)
+	def self.borrar_condominio(nombre_condo)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		borrado = {}
-		borrado[:condominio] = nombre_condo
+		borrado[:condominio] = mongo[:condominios].find({:nombre => nombre_condo}).first()
 
-		if self.es_tipo(username, 'admin')
-			borrado[:administra_condominios] = mongo[:administra_condominios].find({:condominio => nombre_condo}, projection: {condominio: 1, _id: 0}).to_a
-			mongo[:administra_condominios].delete_many({:condominio => nombre_condo})
+		borrado[:administra_condominios] = mongo[:administra_condominios].find({:condominio => nombre_condo}).to_a
+		mongo[:administra_condominios].delete_many({:condominio => nombre_condo})
 
-			borrado[:propiedades] = mongo[:propiedades].find({:condominio => nombre_condo}, projection: {condominio: 1, _id: 0}).to_a
-			mongo[:propiedades].delete_many({:condominio => nombre_condo})
+		borrado[:propiedades] = mongo[:propiedades].find({:condominio => nombre_condo}).to_a
+		mongo[:propiedades].delete_many({:condominio => nombre_condo})
 
-			mongo[:borrados].insert_one(borrado)
-			mongo[:condominio].delete_one({:nombre => condo[:nombre]})
-		end
+		mongo[:borrados].insert_one(borrado)
+		mongo[:condominios].delete_one({:nombre => nombre_condo})
 	end
 
 	def self.condominios()
@@ -297,6 +296,15 @@ end
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 		return mongo[:administra_condominios].find({:username => username}).to_a()
+	end
+
+	def self.condominio_existe(nombre_condo)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		if mongo[:condominios].find({:nombre => nombre_condo}).count() >= 1
+			return true
+		end
+		return false
 	end
 
 end
