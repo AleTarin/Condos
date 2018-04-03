@@ -17,12 +17,12 @@ export class UserService {
     }
 
     getAllAdmin(username: string, nombre_condo: string) {
-        this.headers = new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded');
+        const b = {'admin_name': username, 'nombre_condo': nombre_condo};
         const body = new HttpParams().set('admin_username', username).set('nombre_condo', nombre_condo);
 
-        return this.http.post<User[]>(environment.endpointAPI + 'lista_manejar_usuarios', body, {headers: this.headers})
+        return this.http.post<User[]>(environment.endpointAPI + 'lista_manejar_usuarios', b, {headers: this.headers})
             .map(user => {
-                return user['data'];
+                return user['data']['admins'];
             });
     }
 
