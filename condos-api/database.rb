@@ -233,6 +233,12 @@ end
 		mongo[:condominios].insert_one(condo)
 	end
 
+	def self.agregar_admin(nombre_admin, nombre_condo)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		mongo[:administra_condominios].insert_one({:username => nombre_admin, :condominio => nombre_condo})
+	end
+
 	def self.actualizar_condominio(condo)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')

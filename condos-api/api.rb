@@ -235,10 +235,12 @@ params:
 post '/condominios' do
 	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
 	propiedades = params.delete(:propiedades)
+	admin = params.delete(:admin)
 	if Database.crear_condominio(params) == 'ya_existe'
 		return {:status => 'error', :data => 'Este condominio ya existe'}.to_json()
 	end
 	Database.agregar_propiedades(params[:nombre], propiedades)
+	Database.agregar_admin(admin, params[:nombre])
 	return {:status => 'ok', :data => 'Condominio creado exitosamente'}.to_json()
 end
 
