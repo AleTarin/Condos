@@ -17,6 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LocalstorageService } from './services/localstorage.service';
 import { AuthGuard } from './services/guards/auth.guard';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { FileUploadModule } from 'ng2-file-upload';
+
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     BrowserModule,
     WelcomeModule,
     AppRoutingModule,
+    FileUploadModule,
   ],
   providers: [
     AuthGuard,

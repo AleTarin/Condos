@@ -31,6 +31,10 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   modalRef: any;
   user: any;
+  admins: User[];
+  propietarios_condo: User[];
+  propietarios_propiedad: User[];
+  responsables: User[];
   oldUser: User;
 
   createMessage: string;
@@ -46,13 +50,16 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.adminName = this.storage.getfromLocalStorage('currentUser')['admin'][0]['username'];
     this.adminCondo = this.storage.getfromLocalStorage('currentUser')['admin'][0]['condominio'];
 
-    this.user = this.storage.getfromLocalStorage('currentUser')['admin'];
   }
 
   refreshData() {
     this.userSubscription = this.UserServ.getAllAdmin(this.adminName, this.adminCondo)
     .subscribe(users => {
       this.user = users;
+      this.admins = users['admins'];
+      this.propietarios_condo = users['propietarios_condo'];
+      this.propietarios_propiedad = users['propietarios_propiedad'];
+      this.responsables = users['responsables'];
     } );
   }
 
@@ -95,7 +102,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   createEditForm( usuario: User) {
     this.editForm = new FormGroup({ // __________________ To edit the user
-      username: new FormControl(usuario.username),
       password: new FormControl(usuario.password),
       name:  new FormControl(usuario.nombre),
       paterno: new FormControl(usuario.paterno),
@@ -169,9 +175,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   deleteUser(user: string) {
     this.UserServ.delete(this.toBeDeleted).subscribe();
-    this.refreshData();
     this.closeModal();
-    this.refreshData();
+    this.subscribeToData();
 
   }
 
@@ -218,14 +223,14 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.createMessage = res['data'];
       if (res['status'] !== 'error') {
         this.resetUserData();
-        this.refreshData();
+        this.subscribeToData();
       }
     });
   }
 
   patchUser() {
     const editUsuario = new User(
-      this.usernameEdit.value,
+      this.oldUser.username,
       this.passwordEdit.value,
       this.nombreEdit.value,
       this.paternoEdit.value,
@@ -255,7 +260,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.UserServ.patch(editUsuario).subscribe(res => {
       this.patchMessage = res['data'];
     });
-    // this.refreshData();
+    this.subscribeToData();
   }
 
   resetUserData(): any {

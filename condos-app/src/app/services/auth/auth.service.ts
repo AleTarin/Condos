@@ -39,6 +39,7 @@ user$: Observable<User>;
         .map(user => {
             // login successful if there's a jwt token in the response
             if (user['status'] === 'ok') {
+                console.log(user);
                 const usuario = user['data'];
                 this.userSubject.next(usuario);
 

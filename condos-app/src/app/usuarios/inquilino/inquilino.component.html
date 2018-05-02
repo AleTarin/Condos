@@ -1,7 +1,110 @@
-<p class="m-3">
-    Welcome propietary !
-</p>
-    
-<ul class="list-group" *ngFor="let elem of user; let i = index">
-    <li class="list-group-item ">{{ elem['condominio'] }} - </li>
-</ul>
+
+
+<div class="row mt-5">
+    <div class="col text-center">
+        <h2>Mi información</h2>
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col">
+            
+            <table style="width:100%">
+                <tr>
+                    <td><b> Nombre completo:</b></td>
+                    <td> {{ user['nombre'] + " " + user['paterno'] + " " + user['materno']}}</td>
+                </tr>
+                <tr>
+                    <td><b> RFC:</b></td> 
+                    <td>{{ user['rfc']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Aniversario:</b></td> 
+                    <td>{{ user['aniversario']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Tipo Persona:</b></td> 
+                    <td>{{ user['tipo_persona']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Teléfono Móvil:</b></td> 
+                    <td>{{ user['tel_movil']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Teléfono Directo:</b></td>
+                    <td> {{ user['tel_directo']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Calle:</b></td>
+                    <td> {{ user['calle']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Colonia:</b></td>
+                    <td> {{ user['colonia']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Ciudad:</b></td>
+                    <td> {{ user['ciudad']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Localidad:</b></td>
+                    <td> {{ user['localidad']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Código Postal:</b></td>
+                    <td> {{ user['codigo_postal']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Estado:</b></td>
+                    <td> {{ user['estado']}}</td>
+                </tr>
+                <tr>
+                    <td><b> País:</b></td>
+                    <td> {{ user['pais']}}</td>
+                </tr>
+            
+            
+                <tr>                
+                    <td><b> Número Exterior:</b></td> 
+                    <td> {{ user['num_exterior']}}</td>
+                </tr>
+            
+                <tr>            
+                    <td><b> Número Interior:</b></td>
+                    <td> {{ user['num_interior']}}</td>
+                </tr>
+            
+                <tr>
+                    <td><b> Número de cuenta:</b></td>
+                    <td> {{ user['num_cuenta']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Nombre de cuenta de banco:</b></td>
+                    <td> {{ user['nombre_banco_cuenta']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Clabe de cuenta bancaria:</b></td>
+                    <td> {{ user['clabe_cuenta']}}</td>
+                </tr>
+                
+                <tr>
+                    <td><b> Nombre de cuenta SAT: </b></td>
+                    <td> {{ user['nombre_sat_cuenta']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Método de pago:</b></td>
+                    <td> {{ user['metodo_pago']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Uso de CFDI:</b></td>
+                    <td> {{ user['uso_cfdi']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Estatus:</b></td>
+                    <td> {{ user['estatus']}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

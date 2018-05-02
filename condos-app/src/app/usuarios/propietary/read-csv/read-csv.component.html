@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row m-3">
+    <div class="col text-center">
+      <h2>CSV Data</h2>
+    </div>
+  </div>
+  <div class="row m-3">
+    <div class="col text-center">
+      <a class="btn btn-primary" href="http://localhost:5000/download/template.csv">Templates</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div>
+        <table border="1" class="table table-hover table-sm">
+          <thead class="thead-dark">
+            <tr><th scope="col" *ngFor="let z of tableheader">{{z}}</th></tr>
+          </thead>
+          <tbody>
+            <tr scope="row" *ngFor="let x of csv | slice:1">
+              <td *ngFor="let y of x">{{ y }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>  
+  </div>  
+</div>  
+
+

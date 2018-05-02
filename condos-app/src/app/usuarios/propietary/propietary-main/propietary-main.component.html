@@ -1,7 +1,34 @@
-<p class="m-3">
-  Welcome propietary !
-</p>
-  
-<ul class="list-group" *ngFor="let elem of user; let i = index">
-    <li class="list-group-item ">{{ elem['condominio'] }} </li>
-</ul>
+<div class="jumbotron">
+        <h1 class="display-5" >Panel de administrador</h1>
+        <p class="lead">Bienvenido, elija una opción.</p>
+        <hr class="my-4">
+        
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col ">
+                    <div class="card text-white bg-primary m-3 mx-auto pointer" style="max-width: 20rem;" routerLink="/presupuestos">
+                            <div class="card-body">
+                              <h5 class="card-title">Presupuestos</h5>
+                            </div>
+                            <img class="card-img-bottom  p-3" src="../../../../assets/img/presupuestos.png" alt="Usuarios">
+                    </div>
+            </div>
+            <div class="col">
+                    <div class="card text-white bg-warning m-3 mx-auto pointer" style="max-width: 20rem;" routerLink="/condominios">
+                            <div class="card-body">
+                              <h5 class="card-title">ABC Condominios</h5>
+                            </div>
+                            <img class="card-img-bottom  p-3" src="../../../../assets/img/house.png" alt="Condominios">
+                    </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-success m-3 mx-auto pointer" style="max-width: 20rem;" routerLink="/upload-presupuestos">
+                        <div class="card-body">
+                            <h5 class="card-title">Subir presupuestos</h5>
+                        </div>
+                        <img class="card-img-bottom  p-3" src="../../../../assets/img/upload.png" alt="Subir">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

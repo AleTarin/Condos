@@ -6,6 +6,8 @@ import { PropietaryMainComponent } from '../usuarios/propietary/propietary-main/
 import { InquilinoComponent } from '../usuarios/inquilino/inquilino.component';
 import { UsuariosComponent } from '../usuarios/usuarios/usuarios.component';
 import { CondominiosComponent } from '../usuarios/condominios/condominios.component';
+import { ReadCsvComponent } from '../usuarios/propietary/read-csv/read-csv.component';
+import { UploadCsvComponent } from '../usuarios/propietary/upload-csv/upload-csv.component';
 
 const routes: Routes = [
   {path: 'home', component: WelcomePageComponent},
@@ -14,8 +16,10 @@ const routes: Routes = [
   {path: 'inquilino', component: InquilinoComponent},
   {path: 'usuarios', component: UsuariosComponent},
   {path: 'condominios', component: CondominiosComponent},
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: '**', redirectTo: 'home', pathMatch: 'full'},
+  {path: 'presupuestos', component: ReadCsvComponent},
+  {path: 'upload-presupuestos', component: UploadCsvComponent},
+  // {path: '', redirectTo: 'home', pathMatch: 'full'},
+  // {path: '**', redirectTo: 'home', pathMatch: 'full'},
 ];
 
 @NgModule({

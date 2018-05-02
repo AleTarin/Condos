@@ -38,9 +38,10 @@ export class CondominiosComponent implements OnInit, OnDestroy{
   ngOnInit() {
 
     this.createNewForm();
-    this.username = this.storage.getfromLocalStorage('currentUser')['admin'][0].username;
+    this.username = this.storage.getfromLocalStorage('username');
     this.condoService.getByUser(this.username).subscribe(condos => {
       this.condos = condos;
+      console.log(condos);
     });
   }
   refreshData() {
@@ -111,7 +112,7 @@ export class CondominiosComponent implements OnInit, OnDestroy{
     this.condoService.create(nuevoCondominio).subscribe(res => {
       if (res['status'] === 'ok') {
         this.resetCondoData();
-        this.refreshData();
+        this.subscribeToData();
       }
       this.createMessage = res['data'];
     } );

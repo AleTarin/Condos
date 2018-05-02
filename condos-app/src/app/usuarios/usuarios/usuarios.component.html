@@ -1,16 +1,16 @@
 
-<div class="m-3">
+<div class="mt-3">
     <!-- <p class="float-left font-weight-bold">  Welcome admin  </p> -->
-    <button class="float-right pull-right btn btn-primary" (click)="refreshData()">Refrescar</button>
+    <!-- <button class="float-right pull-right btn btn-primary" (click)="refreshData()">Refrescar</button> -->
     <button type="button" (click)="openModal(add)" class="btn btn-primary float-right pull-right pr-3 pl-3 mr-3">Añadir usuario</button>
     <br><br>
 </div>
 
-<!-- <div class="container-fluid">
+<div class="container-fluid mb-5">
         <div class="row justify-content-center align-items-center"> 
                 <div class="float-left pull-left"> 
                     <h3>
-                            Lista de inquilinos 
+                            Administradores
                     </h3>
                 </div> 
                 
@@ -19,116 +19,125 @@
 
 
 <!-- Lista de usuarios -->
-<accordion-group #group *ngFor="let elem of user; let i = index" class="m-3 ">
-  <div accordion-heading class="clearfix align-middle font-weight-bold pointer " >
-      <span class="align-middle">
-          {{ elem['username'] }}
-      </span>
 
+<div class="container">
+    <div class="row">
+        <div class="col">
 
-  </div>
-  <div class="btn-group float-right pull-right ">
-        <label class="btn btn-outline-secondary " (click)="openEdit(edit, elem['username'])" >Edit</label>
-        <label class="btn btn-outline-danger" (click)="openModal( del , elem['username'] )"> x</label>
-  </div>
-  <!-- (click)="deleteUser(elem)" -->
-    <!-- {{ elem | json}} -->
-  <table style="width:100%">
-    <tr>
-      <td><b> Nombre completo:</b></td>
-      <td> {{ elem['nombre'] + " " + elem['paterno'] + " " + elem['materno']}}</td>
-    </tr>
-    <tr>
-        <td><b> RFC:</b></td> 
-        <td>{{ elem['rfc']}}</td>
-    </tr>
-    <tr>
-        <td><b> Aniversario:</b></td> 
-        <td>{{ elem['aniversario']}}</td>
-    </tr>
-    <tr>
-        <td><b> Tipo Persona:</b></td> 
-        <td>{{ elem['tipo_persona']}}</td>
-    </tr>
-    <tr>
-        <td><b> Teléfono Móvil:</b></td> 
-        <td>{{ elem['tel_movil']}}</td>
-    </tr>
-    <tr>
-        <td><b> Teléfono Directo:</b></td>
-        <td> {{ elem['tel_directo']}}</td>
-    </tr>
-    <tr>
-        <td><b> Calle:</b></td>
-        <td> {{ elem['calle']}}</td>
-    </tr>
-    <tr>
-        <td><b> Colonia:</b></td>
-        <td> {{ elem['colonia']}}</td>
-    </tr>
-    <tr>
-        <td><b> Ciudad:</b></td>
-        <td> {{ elem['ciudad']}}</td>
-    </tr>
-    <tr>
-        <td><b> Localidad:</b></td>
-        <td> {{ elem['localidad']}}</td>
-    </tr>
-    <tr>
-        <td><b> Código Postal:</b></td>
-        <td> {{ elem['codigo_postal']}}</td>
-    </tr>
-    <tr>
-        <td><b> Estado:</b></td>
-        <td> {{ elem['estado']}}</td>
-    </tr>
-    <tr>
-        <td><b> País:</b></td>
-        <td> {{ elem['pais']}}</td>
-    </tr>
+            <!-- <h5 *ngIf="admins" class=" ml-2">Administradores</h5> -->
+            <accordion-group #group *ngFor="let elem of admins; let i = index" class="ml-3 mr-3 ">
+              <div accordion-heading class="clearfix align-middle font-weight-bold pointer " >
+                  <span class="align-middle">
+                      {{ elem['username'] }}
+                  </span>
+              </div>
+            
+              <div class="btn-group float-right pull-right ">
+                    <label class="btn btn-outline-secondary " (click)="openEdit(edit, elem['username'])" >Edit</label>
+                    <label class="btn btn-outline-danger" (click)="openModal( del , elem['username'] )"> x</label>
+              </div>
+              <!-- (click)="deleteUser(elem)" -->
+                <!-- {{ elem | json}} -->
+              <table style="width:100%">
+                <tr>
+                  <td><b> Nombre completo:</b></td>
+                  <td> {{ elem['nombre'] + " " + elem['paterno'] + " " + elem['materno']}}</td>
+                </tr>
+                <tr>
+                    <td><b> RFC:</b></td> 
+                    <td>{{ elem['rfc']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Aniversario:</b></td> 
+                    <td>{{ elem['aniversario']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Tipo Persona:</b></td> 
+                    <td>{{ elem['tipo_persona']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Teléfono Móvil:</b></td> 
+                    <td>{{ elem['tel_movil']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Teléfono Directo:</b></td>
+                    <td> {{ elem['tel_directo']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Calle:</b></td>
+                    <td> {{ elem['calle']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Colonia:</b></td>
+                    <td> {{ elem['colonia']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Ciudad:</b></td>
+                    <td> {{ elem['ciudad']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Localidad:</b></td>
+                    <td> {{ elem['localidad']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Código Postal:</b></td>
+                    <td> {{ elem['codigo_postal']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Estado:</b></td>
+                    <td> {{ elem['estado']}}</td>
+                </tr>
+                <tr>
+                    <td><b> País:</b></td>
+                    <td> {{ elem['pais']}}</td>
+                </tr>
+            
+            
+                <tr>                
+                    <td><b> Número Exterior:</b></td> 
+                    <td> {{ elem['num_exterior']}}</td>
+                </tr>
+            
+                <tr>            
+                    <td><b> Número Interior:</b></td>
+                    <td> {{ elem['num_interior']}}</td>
+                </tr>
+            
+                <tr>
+                    <td><b> Número de cuenta:</b></td>
+                    <td> {{ elem['num_cuenta']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Nombre de cuenta de banco:</b></td>
+                    <td> {{ elem['nombre_banco_cuenta']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Clabe de cuenta bancaria:</b></td>
+                    <td> {{ elem['clabe_cuenta']}}</td>
+                </tr>
+                
+                <tr>
+                    <td><b> Nombre de cuenta SAT: </b></td>
+                    <td> {{ elem['nombre_sat_cuenta']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Método de pago:</b></td>
+                    <td> {{ elem['metodo_pago']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Uso de CFDI:</b></td>
+                    <td> {{ elem['uso_cfdi']}}</td>
+                </tr>
+                <tr>
+                    <td><b> Estatus:</b></td>
+                    <td> {{ elem['estatus']}}</td>
+                </tr>
+              </table>
+            </accordion-group>
+        </div>
+    </div>
+</div>
 
-
-    <tr>                
-        <td><b> Número Exterior:</b></td> 
-        <td> {{ elem['num_exterior']}}</td>
-    </tr>
-
-    <tr>            
-        <td><b> Número Interior:</b></td>
-        <td> {{ elem['num_interior']}}</td>
-    </tr>
-
-    <tr>
-        <td><b> Número de cuenta:</b></td>
-        <td> {{ elem['num_cuenta']}}</td>
-    </tr>
-    <tr>
-        <td><b> Nombre de cuenta de banco:</b></td>
-        <td> {{ elem['nombre_banco_cuenta']}}</td>
-    </tr>
-    <tr>
-        <td><b> Clabe de cuenta bancaria:</b></td>
-        <td> {{ elem['clabe_cuenta']}}</td>
-    </tr>
-    
-    <tr>
-        <td><b> Nombre de cuenta SAT: </b></td>
-        <td> {{ elem['nombre_sat_cuenta']}}</td>
-    </tr>
-    <tr>
-        <td><b> Método de pago:</b></td>
-        <td> {{ elem['metodo_pago']}}</td>
-    </tr>
-    <tr>
-        <td><b> Uso de CFDI:</b></td>
-        <td> {{ elem['uso_cfdi']}}</td>
-    </tr>
-    <tr>
-        <td><b> Estatus:</b></td>
-        <td> {{ elem['estatus']}}</td>
-    </tr>
-  </table>
-</accordion-group>
 
 <!-- Modal para añadir usuario-->
 <ng-template #add>
@@ -376,153 +385,176 @@
                     <form [formGroup]="editForm">
                             <fieldset>                    
                                 <!-- Email Block -->
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <input  type="email"
                                         formControlName="username" placeholder="Email" >
-                                </div>
+                                </div> -->
 
                                 <!-- Password Block -->
+                                Contraseña
                                 <div class="form-group">
                                         <input type="text"
-                                            formControlName="password" placeholder="Password" >
+                                            formControlName="password" placeholder="Password" required >
                                 </div>
 
                                 <!-- Name Block -->
+                                Primer nombre
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="name" placeholder="Nombre">
+                                            formControlName="name" placeholder="Nombre" required>
                                 </div>
 
                                 <!-- Apellidos Block -->
+                                Apellido paterno
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="paterno" placeholder="Apellido paterno" >
+                                            formControlName="paterno" placeholder="Apellido paterno" required>
                                 </div>
 
+                                Apellido materno
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="materno" placeholder="Apellido materno" >
+                                            formControlName="materno" placeholder="Apellido materno" required>
                                 </div>
 
                                 <!-- RFC -->
+                                RFC
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="rfc" placeholder="RFC" >
+                                            formControlName="rfc" placeholder="RFC" required>
                                 </div>
 
                                 <!-- Aniversario -->
                                 <div class="form-group">
                                     Aniversario
                                         <input type="date"
-                                            formControlName="aniversario" placeholder="Fecha de nacimiento" >
+                                            formControlName="aniversario" placeholder="Fecha de nacimiento" required >
                                 </div>
 
                                 <!-- User type Block -->
+                                Tipo de usuario
                                 <div class="form-group">
                                     <input type="radio" formControlName="tipo_persona" name="tipo_persona" value="Persona Moral" checked > Persona Moral<br>
                                     <input type="radio" formControlName="tipo_persona" name="tipo_persona" value="Persona Fisica"> Persona Fisica <br>
                                 </div>
 
                                 <!-- Movil -->
+                                Teléfono Móvil
                                 <div class="form-group">
                                         <input type="tel"
-                                            formControlName="tel_movil" placeholder="Teléfono Móvil">
+                                            formControlName="tel_movil" placeholder="Teléfono Móvil" required>
                                 </div>
 
                                 <!-- Telefono Directo -->
+                                Teléfono Directo
                                 <div class="form-group">
                                         <input type="tel"
-                                            formControlName="tel_directo" placeholder="Teléfono Directo">
+                                            formControlName="tel_directo" placeholder="Teléfono Directo" required>
                                 </div>
 
                                 <!-- Calle  -->
+                                Calle
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="calle" placeholder="Calle" >
+                                            formControlName="calle" placeholder="Calle" required>
                                 </div>
 
                                 <!-- Numero Exterior -->
+                                Número Exterior
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="num_exterior" placeholder="Número Exterior" >
+                                            formControlName="num_exterior" placeholder="Número Exterior" required >
                                 </div>
 
                                 <!-- Numero Interior -->
+                                Número Interior
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="num_interior" placeholder="Número Interior" >
+                                            formControlName="num_interior" placeholder="Número Interior" required>
                                 </div>
 
                                 <!-- Colonia -->
+                                Colonia
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="colonia" placeholder="Colonia" >
+                                            formControlName="colonia" placeholder="Colonia" required >
                                 </div>
 
                                 <!-- Ciudad -->
+                                Ciudad
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="ciudad" placeholder="Ciudad" >
+                                            formControlName="ciudad" placeholder="Ciudad" required>
                                 </div>
 
                                 <!-- Localidad -->
+                                Localidad
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="localidad" placeholder="Localidad" >
+                                            formControlName="localidad" placeholder="Localidad" required>
                                 </div>
 
                                 <!-- Estado -->
+                                Estado
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="estado" placeholder="Estado" >
+                                            formControlName="estado" placeholder="Estado" required>
                                 </div>
 
                                 <!-- Pais -->
+                                País
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="pais" placeholder="País" >
+                                            formControlName="pais" placeholder="País" required>
                                 </div>
 
                                 <!-- Codigo Postal -->
+                                Código Postal
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="codigo_postal" placeholder="Codigo Postal" >
+                                            formControlName="codigo_postal" placeholder="Codigo Postal" required>
                                 </div>
 
                                 <!-- Metodo de pago -->
+                                Método de pago
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="metodo_pago" placeholder="Método de Pago" >
+                                            formControlName="metodo_pago" placeholder="Método de Pago" required>
                                 </div>
                                 
                                 <!-- Uso CFDI ? -->
+                                Uso de CFDI
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="uso_cfdi" placeholder="CFDI" >
+                                            formControlName="uso_cfdi" placeholder="CFDI" required>
                                 </div>
 
                                 <!-- Numero de cuenta -->
+                                Número de cuenta bancaria
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="num_cuenta" placeholder="Número de Cuenta" >
+                                            formControlName="num_cuenta" placeholder="Número de Cuenta" required>
                                 </div>
 
                                 <!-- Clabe de cuenta -->
+                                Clabe de cuenta bancaria
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="clabe_cuenta" placeholder="Clabe de Cuenta" >
+                                            formControlName="clabe_cuenta" placeholder="Clabe de Cuenta" required>
                                 </div>
 
                                 <!-- Nombre de cuenta -->
+                                Nombre en cuenta bancaria
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="nombre_banco_cuenta" placeholder="Nombre de cuenta bancaria" >
+                                            formControlName="nombre_banco_cuenta" placeholder="Nombre de cuenta bancaria" required>
                                 </div>
 
                                 <!-- Nombre de SAT en Cuenta -->
+                                SAT en cuenta bancaria
                                 <div class="form-group">
                                         <input  type="text"
-                                            formControlName="nombre_sat_cuenta" placeholder="Nombre de SAT en cuenta bancaria" >
+                                            formControlName="nombre_sat_cuenta" placeholder="Nombre de SAT en cuenta bancaria" required>
                                 </div>
 
                                 <!-- Estatus -->
@@ -564,17 +596,19 @@
                                 <!-- In case of propiertary -->
 
                                 <!-- Propiedad -->
+                                
                                 <div class="form-group" *ngIf="editForm.value.tipo.inquilino" >
+                                        Número de su propiedad <br>
                                         <input  type="number"
                                             formControlName="propiedad" placeholder="Id de Propiedad" >
                                 </div>
     
                                 <!-- In case of inquilino -->
-                                <!-- {{editForm.value | json}} -->
+                                <!-- {{editForm.status | json}} -->
     
     
                                 <!-- Buttons block -->
-                                <input type="submit"  (click)="patchUser()" class="login loginmodal-submit" value="Enviar">
+                                <input type="submit"  (click)="patchUser()" [disabled]="!editForm.valid" class="login loginmodal-submit" value="Enviar">
                                 
                                 <!-- Etiquetas abajo del login -->
                                 <div class="login-help">
@@ -586,8 +620,6 @@
         </div>
 </ng-template>
   
-
-
 <!--Small modal-->
 <ng-template #del  class="modal-dialog modal-sm">
                   <div class="modal-content">

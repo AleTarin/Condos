@@ -2,16 +2,60 @@ require 'sinatra'
 require 'sinatra/cross_origin'
 require 'json'
 require 'mail'
+require 'csv'
 require './database.rb'
 
 set(:port, 5000)
-enable :sessions
+enable :sessions  
+set :bind, '0.0.0.0'
+
+configure do
+	enable :cross_origin
+	set :public_folder, File.join(File.dirname(__FILE__), 'public')
+	set :csvs, File.join(settings.public_folder, 'csvs')
+    set :files, File.join(settings.public_folder, 'files')
+    set :unallowed_paths, ['.', '..']
+end
 
 before do
-	headers 'Access-Control-Allow-Origin' => '*', 
-			'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST', 'PATCH', 'PUT'],
-			'Content-Type' => 'application/json'
- end
+	response.headers['Access-Control-Allow-Origin'] = '*'
+	
+end
+
+post '/upload' do
+    if params[:file]
+		filename = params[:username] + '.csv';
+		file = params[:file][:tempfile]
+
+		File.open(File.join(settings.csvs, filename), 'wb') do |f|
+			f.write file.read
+	end
+		return {:status => 'ok', :data => 'Archivo subido exitosamente'}.to_json()
+    else
+		return {:status => 'error', :data => 'Tienes que elegir un archivo'}.to_json()
+    end
+end
+
+get '/download/template.csv' do
+	send_file "./public/template.csv", :filename => 'template.csv', :type => 'Application/octet-stream'
+end
+
+get '/csv/template.csv' do
+	csv_data = CSV.read("./public/template.csv").to_json
+	return csv_data
+end
+
+get '/csv/:username' do |username|
+	filename = "./public/csvs/" + username + ".csv" 
+	csv_data = CSV.read(filename).to_json
+	return csv_data
+end
+
+
+get '/upload/:username' do
+	@files = Dir.entries(settings.csvs) - settings.unallowed_paths
+	return @files
+end
 
 #Valida un intento de login
 #params: username, password

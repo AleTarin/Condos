@@ -17,17 +17,18 @@ export class UserService {
     }
 
     getAllAdmin(username: string, nombre_condo: string) {
-        const body = new HttpParams().set('admin_username', username).set('nombre_condo', nombre_condo);
+        const body = {admin_username: username, nombre_condo: nombre_condo};
+        // const body = new HttpParams().set('admin_username', username).set('nombre_condo', nombre_condo);
 
         return this.http.post<User[]>(environment.endpointAPI + 'lista_manejar_usuarios', body, {headers: this.headers})
             .map(user => {
-                return user['data']['admins'];
+                console.log(user);
+                return user;
             });
     }
 
     getByUsername(username: string) {
-        this.headers.append('Content-Type', 'application/json');
-        return this.http.get<User>(environment.endpointAPI + 'usuarios/' + username , {headers: this.headers});
+        return this.http.get<User>(environment.endpointAPI + 'usuarios/' + username );
     }
 
     // ────────────────────────────────────────────────────────── CREA UN USUARIO ─────

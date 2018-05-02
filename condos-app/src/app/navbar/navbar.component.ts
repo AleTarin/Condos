@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { UserService } from '../services/user/user.service';
+import { LocalstorageService } from '../services/localstorage.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,7 @@ import { UserService } from '../services/user/user.service';
 })
 export class NavbarComponent implements OnInit {
 
+  username: any;
   // Mensajes para el login
   mensajeOlvido: String;
   mensajeNewPass: String;
@@ -22,6 +24,7 @@ export class NavbarComponent implements OnInit {
   userLogin: User;
   userForgot: User;
   userPassword: User;
+  user: User;
 
   // Switches
   loginError: boolean;
@@ -36,6 +39,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
+    private storage: LocalstorageService,
     private router: Router,
     public auth: AuthService,
     public userService: UserService) {
@@ -50,7 +54,7 @@ export class NavbarComponent implements OnInit {
   }
 
   isLogged() {
-    return localStorage.getItem('currentUser') !== null ;
+    return this.storage.getfromLocalStorage('currentUser') !== null;
   }
   //
   // ─────────────────────────── FUNCION QUE CIERRA EL MODAL ACTUAL Y ABRE OTRO ─────
@@ -66,8 +70,12 @@ export class NavbarComponent implements OnInit {
     this.auth.login(username, password).subscribe(res => {
       if (res) {
         this.loginError = false;
+        this.storage.saveToLocalStorage('username', username);
         this.router.navigate(['/' + res]);
         this.modalRef.hide();
+        this.userService.getByUsername(username).subscribe(user => {
+          this.user = user;
+        });
       } else {
         this.loginError = true;
       }
@@ -82,7 +90,7 @@ export class NavbarComponent implements OnInit {
   //
   // _______________________________________ Funcion para guardar mandar correo en caso de solicitar la contraseña
   newPassword() {
-    this.auth.cambiarPassword(this.passwordForm.controls['username'].value,
+    this.auth.cambiarPassword(this.username,
     this.passwordForm.controls['password_actual'].value ,
     this.passwordForm.controls['confirm'].value)
     .subscribe( res => this.mensajeNewPass = res);
@@ -103,10 +111,13 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    // const nombre_usuario = this.storage.getfromLocalStorage('username');
     // _____________________________________________________________________ Inicizalizar donde guardar la info
     this.userLogin = new User();
     this.userPassword = new User();
     this.userForgot = new User();
+    this.username = this.storage.getfromLocalStorage('username');
+
     // ____________________________________________________________________________Form para el modal de login
     this.loginForm = new FormGroup({
       username: new FormControl(
@@ -123,11 +134,6 @@ export class NavbarComponent implements OnInit {
     });
     // ________________________________________________________ Form para el modal de asignar una nueva contraseña
     this.passwordForm = new FormGroup({
-      username: new FormControl(
-        this.userPassword.username, [
-        Validators.required,
-        Validators.minLength(4),
-      ]),
       password_actual: new FormControl(
         this.actualPassword, [
         Validators.required,
