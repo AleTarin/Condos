@@ -13,6 +13,9 @@ import { RouterModule } from '@angular/router';
 import { UploadCsvComponent } from './propietary/upload-csv/upload-csv.component';
 import { ReadCsvComponent } from './propietary/read-csv/read-csv.component';
 import { FilesComponent } from './files/files.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ListFilesComponent } from './list-files/list-files.component';
+
 
 
 @NgModule({
@@ -20,6 +23,7 @@ import { FilesComponent } from './files/files.component';
     CommonModule,
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     FileUploadModule,
@@ -36,6 +40,7 @@ import { FilesComponent } from './files/files.component';
     UploadCsvComponent,
     ReadCsvComponent,
     FilesComponent,
+    ListFilesComponent,
   ],
   providers: [LocalstorageService, AccordionComponent]
 })
