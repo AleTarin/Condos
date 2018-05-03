@@ -8,6 +8,7 @@ import { UsuariosComponent } from '../usuarios/usuarios/usuarios.component';
 import { CondominiosComponent } from '../usuarios/condominios/condominios.component';
 import { ReadCsvComponent } from '../usuarios/propietary/read-csv/read-csv.component';
 import { UploadCsvComponent } from '../usuarios/propietary/upload-csv/upload-csv.component';
+import { FilesComponent } from '../usuarios/files/files.component';
 
 const routes: Routes = [
   {path: 'home', component: WelcomePageComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'usuarios', component: UsuariosComponent},
   {path: 'condominios', component: CondominiosComponent},
   {path: 'presupuestos', component: ReadCsvComponent},
+  {path: 'documentos', component: FilesComponent},
   {path: 'upload-presupuestos', component: UploadCsvComponent},
   // {path: '', redirectTo: 'home', pathMatch: 'full'},
   // {path: '**', redirectTo: 'home', pathMatch: 'full'},

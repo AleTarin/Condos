@@ -18,12 +18,14 @@ import { LocalstorageService } from './services/localstorage.service';
 import { AuthGuard } from './services/guards/auth.guard';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { FileUploadModule } from 'ng2-file-upload';
+import { EscapeHtmlPipe } from './pipes/keep-htlm.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    EscapeHtmlPipe
   ],
   imports: [
     ModalModule.forRoot(),

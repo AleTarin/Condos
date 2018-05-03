@@ -104,8 +104,14 @@
 
 .login-help{
   font-size: 1rem;
-  border: 1px solid black;
-  border-radius: 8px;
+  font-weight: bold;
+  display: inline;
+
+  a {
+
+    color: #932443;
+    cursor: pointer;
+  }
 }
 
 .navbar{

@@ -6,7 +6,8 @@
   </div>
   <div class="row m-3">
     <div class="col text-center">
-      <a class="btn btn-primary" href="http://localhost:5000/download/template.csv">Templates</a>
+      <a class="btn btn-primary" href="http://localhost:5000/download/template.csv">Template vacio</a>
+      <a *ngIf="csv" href="{{csvDownloadUrl}}" class="btn btn-success">Descargar CSV</a>
     </div>
   </div>
   <div class="row">

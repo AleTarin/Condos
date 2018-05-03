@@ -12,6 +12,7 @@ import { CondominiosComponent } from './condominios/condominios.component';
 import { RouterModule } from '@angular/router';
 import { UploadCsvComponent } from './propietary/upload-csv/upload-csv.component';
 import { ReadCsvComponent } from './propietary/read-csv/read-csv.component';
+import { FilesComponent } from './files/files.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { ReadCsvComponent } from './propietary/read-csv/read-csv.component';
     CondominiosComponent,
     UploadCsvComponent,
     ReadCsvComponent,
+    FilesComponent,
   ],
   providers: [LocalstorageService, AccordionComponent]
 })

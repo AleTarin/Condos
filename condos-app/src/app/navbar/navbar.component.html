@@ -3,6 +3,7 @@
 
   <!-- userentos del navbar -->
   <ul class="navbar-nav">
+      <li class="nav-item mr-5"  *ngIf="(auth.loggedIn$ | async)"><a class="nav-link" routerLink="/documentos">Documentos</a></li>
     <li class="nav-item mr-5" *ngIf="(auth.loggedIn$ | async) && (auth.user$ | async)?.admin?.length > 0 " >
       <a class="nav-link" routerLink="/admin">Administrador</a>
     </li>
