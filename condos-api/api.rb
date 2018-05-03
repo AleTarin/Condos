@@ -356,6 +356,11 @@ patch '/usuarios' do
 	return {:estatus => 'ok', :data => 'Se actualizo el usuario exitosamente'}.to_json()
 end
 
+#Propiedades
+get '/propiedades/:nombre_condo' do
+	return Database.propiedades(params[:nombre_condo]).to_json()
+end
+
 options "*" do
     response.headers["Allow"] = "GET, POST, OPTIONS, PATCH, PUT"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"

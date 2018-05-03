@@ -248,6 +248,19 @@ end
 		mongo[:condominios].update_one({:nombre => condo[:nombre]}, {'$set' => condo})
 	end
 
+	#Propiedades
+	def self.propiedades(nombre_condo)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+
+		listaPropiedades = mongo[:propiedades].find({nombre: nombre_condo})
+		if usuario.count() == 0
+			return 'No tiene propiedades'
+		end
+
+		return listaPropiedades
+	end
+
 	def self.agregar_propiedades(nombre_condo, propiedades)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
@@ -335,5 +348,6 @@ end
 		end
 		return false
 	end
+
 
 end
