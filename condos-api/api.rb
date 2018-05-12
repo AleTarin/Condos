@@ -361,6 +361,14 @@ get '/propiedades/:nombre_condo' do
 	return Database.propiedades(params[:nombre_condo]).to_json()
 end
 
+delete '/propiedades/:id_propiedad' do
+	if !Database.existe_propiedad(params[:id_propiedad])
+		return {:status => 'error', :data => 'Propiedad no existe'}.to_json()
+	end
+	Database.borrar_propiedad(params[:id_propiedad])
+	return {:status => 'ok', :data => 'Propiedad se borro exitosamente'}.to_json()
+end
+
 options "*" do
     response.headers["Allow"] = "GET, POST, OPTIONS, PATCH, PUT"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"

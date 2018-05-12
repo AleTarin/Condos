@@ -249,6 +249,16 @@ end
 	end
 
 	#Propiedades
+
+	def self.existe_propiedad(id_propiedad)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		if mongo[:condominios].find({:identificador => id_propiedad}).count() >= 1
+			return true
+		end
+		return false
+	end
+
 	def self.propiedades(nombre_condo)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
@@ -270,6 +280,20 @@ end
 				mongo[:propiedades].insert_one(prop)
 			end
 		end
+	end
+
+	def self.borrar_propiedades(id_propiedad)
+		Mongo::Logger.logger.level = Logger::FATAL
+		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
+		borrado = {}
+
+		borrado[:vive_en] = mongo[:vive_en].find({:propiedad => id_propiedad}).to_a
+		mongo[:vive_en].delete_many({:propiedad => id_propiedad})
+
+		borrado[:propiedades] = mongo[:propiedades].find({:propiedades => id_propiedad}).to_a
+		mongo[:propiedades].delete_many({:id_propiedad => id_propiedad})
+
+		mongo[:borrados].insert_one(borrado)
 	end
 
 	def self.actualizar_propiedades(nombre_condo, propiedades)
