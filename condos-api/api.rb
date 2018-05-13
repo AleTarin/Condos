@@ -393,6 +393,12 @@ delete '/propiedades/:id_propiedad' do
 	return {:status => 'ok', :data => 'Propiedad se borro exitosamente'}.to_json()
 end
 
+post '/agregar_propiedades/:nombre_condo :propiedades' do
+	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
+
+	return Database.agregar_propiedades(params[:nombre_condo], params[:propiedades]).to_json()
+end
+
 options "*" do
     response.headers["Allow"] = "GET, POST, OPTIONS, PATCH, PUT"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
