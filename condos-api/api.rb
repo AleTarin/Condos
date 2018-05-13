@@ -36,8 +36,31 @@ post '/upload' do
     end
 end
 
+post '/upload-file' do
+	puts params
+    if params[:file]
+		filename = params[:file][:filename]
+		file = params[:file][:tempfile]
+
+		File.open(File.join(settings.files, filename), 'wb') do |f|
+			f.write file.read
+	end
+		return {:status => 'ok', :data => 'Archivo subido exitosamente'}.to_json()
+    else
+		return {:status => 'error', :data => 'Tienes que elegir un archivo'}.to_json()
+    end
+end
+
 get '/download/template.csv' do
 	send_file "./public/template.csv", :filename => 'template.csv', :type => 'Application/octet-stream'
+end
+
+get '/download/:username' do |username|
+	send_file "./public/csvs/" + username + ".csv", :filename => 'presupuestos.csv', :type => 'Application/octet-stream'
+end
+
+get '/download/:filename' do |filename|
+	send_file "./public/files/" + filename , :filename => filename, :type => 'Application/octet-stream'
 end
 
 get '/csv/template.csv' do
@@ -52,9 +75,10 @@ get '/csv/:username' do |username|
 end
 
 
-get '/upload/:username' do
-	@files = Dir.entries(settings.csvs) - settings.unallowed_paths
-	return @files
+get '/files/all' do
+	@files = Dir.entries(settings.files) - settings.unallowed_paths
+	puts @files
+	return @files.to_json()
 end
 
 #Valida un intento de login
