@@ -253,7 +253,7 @@ end
 	def self.existe_propiedad(id_propiedad)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		if mongo[:condominios].find({:identificador => id_propiedad}).count() >= 1
+		if mongo[:propiedades].find({:identificador => id_propiedad}).count() >= 1
 			return true
 		end
 		return false
@@ -263,23 +263,36 @@ end
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
 
-		listaPropiedades = mongo[:propiedades].find({nombre: nombre_condo})
-		if usuario.count() == 0
+		listaPropiedades = mongo[:propiedades].find({condominio: nombre_condo}).to_a()
+		if listaPropiedades.count() == 0
 			return 'No tiene propiedades'
 		end
 
 		return listaPropiedades
 	end
 
-	def self.agregar_propiedades(nombre_condo, propiedades)
+	def self.agregar_propiedades(nombre_condo, propiedades, usuario)
 		Mongo::Logger.logger.level = Logger::FATAL
 		mongo = Mongo::Client.new([Socket.ip_address_list[1].inspect_sockaddr + ':27017'], :database => 'condominios')
-		propiedades.each do |prop|
-			prop[:condominio] = nombre_condo
-			if mongo[:propiedades].find({:condominio => nombre_condo, :identificador => prop[:identificador]}).count() == 0
-				mongo[:propiedades].insert_one(prop)
+		if mongo[:condominios].find({:condominio => nombre_condo}).count() == 0
+			if mongo[:propiedades].find({:condominio => nombre_condo, :identificador => propiedades}).count() == 0
+				mongo[:propiedades].insert_one({
+					:condominio => nombre_condo, 
+					:identificador => propiedades, 
+					:propietario => usuario,
+					:responsable => usuario,
+					:estatus => 'ocupado',
+				})
+				mongo[:vive_en].insert_one({
+					:condominio => nombre_condo, 
+					:propiedad => propiedades, 
+					:username => usuario,
+				})
+				return "Propiedad creada"
 			end
-		end
+			return "La propiedad ya esta registrada"
+		end 
+		return "Condominio no existe"
 	end
 
 	def self.borrar_propiedades(id_propiedad)
@@ -290,8 +303,8 @@ end
 		borrado[:vive_en] = mongo[:vive_en].find({:propiedad => id_propiedad}).to_a
 		mongo[:vive_en].delete_many({:propiedad => id_propiedad})
 
-		borrado[:propiedades] = mongo[:propiedades].find({:propiedades => id_propiedad}).to_a
-		mongo[:propiedades].delete_many({:id_propiedad => id_propiedad})
+		borrado[:propiedades] = mongo[:propiedades].find({:identificador => id_propiedad}).to_a
+		mongo[:propiedades].delete_many({:identificador => id_propiedad})
 
 		mongo[:borrados].insert_one(borrado)
 	end

@@ -1,0 +1,97 @@
+
+<div class="m-3">
+  <!-- <button class="float-right pull-right btn btn-primary" (click)="refreshData()">Actualizar</button> -->
+  <button type="button" (click)="openModal(add)" class="btn btn-primary float-right pull-right pr-3 pl-3 mr-3">Añadir propiedad</button>
+  <br><br>
+</div>
+
+<div class="container-fluid mb-5">
+    <div class="row justify-content-center align-items-center"> 
+        <div class="float-left pull-left"> 
+            <h3>
+              Lista de propiedades de {{condo}}
+            </h3>
+        </div>              
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+          <!-- Lista de propiedades -->
+          <accordion-group #group *ngFor="let elem of properties; let i = index" class="ml-3 mr-3 ">
+            <div accordion-heading class="clearfix align-middle font-weight-bold pointer " >
+                <span class="align-middle">
+                    {{ 'Cuarto:  ' + elem['identificador'] }}
+                </span>
+            </div>
+
+            <div class="float-right pull-right ">
+                <label class="btn btn-outline-danger px-2" (click)="openModal( del , elem['identificador'])"> x</label>
+            </div>
+        
+            <table>
+              <tr>
+                <td><b> Propietario:</b></td>
+                <td> {{ elem['propietario']}}</td>
+              </tr>
+            </table>
+          </accordion-group>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para añadir propiedad-->
+<ng-template #add>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Añadir propiedad</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+  <div class="modal-body loginmodal-container">
+      <div class="justify-content-center align-items-center login">
+            <div class="alert alert-success" *ngIf="createMessage" >
+                {{createMessage}}
+            </div>
+
+            <form [formGroup]="propiedadForm">
+                <fieldset>                    
+                    <!-- Name Block -->
+                    <div class="form-group">
+                        Identificador del cuarto
+                        <input  type="text" formControlName="name" placeholder="Identificador del cuarto" required>
+                    </div>
+                  
+                  <!-- Buttons block -->
+                  <input type="submit" class="login loginmodal-submit"  (click)="newPropiedad()"  value="Enviar">
+                  
+                  <!-- Etiquetas abajo del login -->
+                  <div class="login-help">
+                      <a (click)="closeModal()"> Cancelar  </a>
+                  </div>
+                </fieldset>
+            </form>
+          </div>
+      </div>
+</ng-template>
+
+<!--Small modal-->
+<ng-template #del  class="modal-dialog modal-sm">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Eliminar propiedad</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <p>Confirma para eliminar el propiedad</p>
+          <button type="button" (click)="deleteProperty()" class="btn btn-danger col mb-3 ">Eliminar propiedad</button>
+          <div class="login-help">
+              <a (click)="closeModal()"> Cancelar  </a>
+          </div>
+    </div>
+  </div>
+</ng-template>

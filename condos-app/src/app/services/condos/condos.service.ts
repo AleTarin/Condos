@@ -62,4 +62,19 @@ export class CondosService {
       return this.http.delete(environment.endpointAPI + 'condominios/' + username);
   }
 
+  createProperty (condo: string, propiedad: string, usuario: string) {
+      return this.http.post<string>(environment.endpointAPI + 'propiedades/'
+                                                            + condo + '/'
+                                                            + propiedad + '/'
+                                                            + usuario, {}).map(res => res);
+  }
+
+  getAllProperties (condo: string) {
+      return this.http.get(environment.endpointAPI + 'propiedades/' + condo, {headers: this.headers});
+  }
+
+  deleteProperty(property: string) { 
+    return this.http.delete(environment.endpointAPI + 'propiedades/' + property, {headers: this.headers}) ;
+  }
+
 }

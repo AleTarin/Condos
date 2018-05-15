@@ -389,18 +389,16 @@ delete '/propiedades/:id_propiedad' do
 	if !Database.existe_propiedad(params[:id_propiedad])
 		return {:status => 'error', :data => 'Propiedad no existe'}.to_json()
 	end
-	Database.borrar_propiedad(params[:id_propiedad])
+	Database.borrar_propiedades(params[:id_propiedad])
 	return {:status => 'ok', :data => 'Propiedad se borro exitosamente'}.to_json()
 end
 
-post '/agregar_propiedades/:nombre_condo :propiedades' do
-	params = JSON.parse(request.body.read.to_s, :symbolize_names => true)
-
-	return Database.agregar_propiedades(params[:nombre_condo], params[:propiedades]).to_json()
+post '/propiedades/:nombre_condo/:propiedades/:usuario' do
+	return Database.agregar_propiedades(params[:nombre_condo], params[:propiedades], params[:usuario]).to_json()
 end
 
 options "*" do
-    response.headers["Allow"] = "GET, POST, OPTIONS, PATCH, PUT"
+    response.headers["Allow"] = "GET, POST, OPTIONS, PATCH, PUT, DELETE"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
     response.headers["Access-Control-Allow-Origin"] = "*"
     200

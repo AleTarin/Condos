@@ -15,6 +15,7 @@ import { ReadCsvComponent } from './propietary/read-csv/read-csv.component';
 import { FilesComponent } from './files/files.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ListFilesComponent } from './list-files/list-files.component';
+import { PropiedadesComponent } from './propiedades/propiedades.component';
 
 
 
@@ -41,6 +42,7 @@ import { ListFilesComponent } from './list-files/list-files.component';
     ReadCsvComponent,
     FilesComponent,
     ListFilesComponent,
+    PropiedadesComponent,
   ],
   providers: [LocalstorageService, AccordionComponent]
 })

@@ -16,17 +16,86 @@
       </div>
   </div>
 
-
-<!-- Lista de condominios -->
-<accordion-group #group *ngFor="let elem of user; let i = index" class="m-3 ">
-<div accordion-heading class="clearfix align-middle font-weight-bold pointer " >
-    <span class="align-middle">
-        {{ elem['condominio'] }}
-    </span>
-
-    <div class="btn-group float-right pull-right ">
-      <label class="btn btn-outline-secondary " (click)="openModal(edit)" >Edit</label>
-      <label class="btn btn-outline-danger" (click)="openModal( del , elem['condominio'] )"> x</label>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <!-- Lista de condominios -->
+            <accordion-group #group *ngFor="let elem of condos; let i = index" class="ml-3 mr-3 ">
+            <div accordion-heading class="clearfix align-middle font-weight-bold pointer " >
+                <span class="align-middle">
+                    {{ elem['nombre'] }}
+                </span>
+            
+            
+            </div>
+            <div class="btn-group float-right pull-right ">
+                <label class="btn btn-outline-secondary " (click)="openEdit(edit, elem)" >Editar</label>
+                <label class="btn btn-outline-danger" routerLink='/propiedades/{{elem["nombre"]}}'>Propiedades</label>
+                <label class="btn btn-outline-danger" (click)="openModal( del , elem['nombre'])"> x</label>
+            </div>
+            <!-- (click)="deleteUser(elem)" -->
+            
+            <table style="width:100%">
+                    <tr>
+                      <td><b> Razón Social:</b></td>
+                      <td> {{ elem['razon_social']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> Teléfono Móvil:</b></td> 
+                        <td>{{ elem['tel_movil']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> Teléfono Directo:</b></td>
+                        <td> {{ elem['tel_directo']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> Calle:</b></td>
+                        <td> {{ elem['calle']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> Colonia:</b></td>
+                        <td> {{ elem['colonia']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> Ciudad:</b></td>
+                        <td> {{ elem['ciudad']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> Localidad:</b></td>
+                        <td> {{ elem['localidad']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> Código Postal:</b></td>
+                        <td> {{ elem['codigo_postal']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> Estado:</b></td>
+                        <td> {{ elem['estado']}}</td>
+                    </tr>
+                    <tr>
+                        <td><b> País:</b></td>
+                        <td> {{ elem['pais']}}</td>
+                    </tr>
+                    <tr>                
+                        <td><b> Url de imagen:</b></td>
+                        <td> {{ elem['imagen']}}</td>
+            
+                    <tr>
+                        <td><b> Estatus:</b></td>
+                        <td> {{ elem['estatus']}}</td>
+                    </tr>
+                    <tr>                
+                        <td><b> Número Exterior:</b></td> 
+                        <td> {{ elem['num_exterior']}}</td>
+                    </tr>
+            
+                    <tr>            
+                        <td><b> Número Interior:</b></td>
+                        <td> {{ elem['num_interior']}}</td>
+                    </tr>
+                  </table>
+            </accordion-group>
+        </div>
     </div>
 </div>
 <!-- (click)="deleteUser(elem)" -->
